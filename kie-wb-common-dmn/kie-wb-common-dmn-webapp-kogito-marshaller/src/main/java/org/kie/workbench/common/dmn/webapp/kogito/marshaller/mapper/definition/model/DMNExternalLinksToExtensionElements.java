@@ -82,7 +82,7 @@ class DMNExternalLinksToExtensionElements {
     //    extensions.removeAll(existingLinks);
     //}
 
-    private static JSITDMNElement.JSIExtensionElements getOrCreateExtensionElements(final JSITDRGElement target) {
+    static JSITDMNElement.JSIExtensionElements getOrCreateExtensionElements(final JSITDRGElement target) {
         return target.getExtensionElements() == null
                 ? new JSITDMNElement.JSIExtensionElements()
                 : target.getExtensionElements();

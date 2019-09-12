@@ -31,7 +31,7 @@ import org.kie.workbench.common.dmn.api.property.dmn.Id;
 import org.kie.workbench.common.dmn.api.property.dmn.QName;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITContext;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITContextEntry;
-import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITExpression;
+import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDMNElement;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITFunctionDefinition;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.kie.JSITComponentWidths;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.JsUtils;
@@ -39,7 +39,7 @@ import org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.JsUtils;
 public class ContextPropertyConverter {
 
     public static Context wbFromDMN(final JSITContext dmn,
-                                    final JSITExpression parent,
+                                    final JSITDMNElement parent,
                                     final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer) {
         final Id id = IdPropertyConverter.wbFromDMN(dmn.getId());
         final Description description = DescriptionPropertyConverter.wbFromDMN(dmn.getDescription());

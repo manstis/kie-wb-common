@@ -32,6 +32,7 @@ import org.kie.workbench.common.dmn.api.definition.model.List;
 import org.kie.workbench.common.dmn.api.definition.model.LiteralExpression;
 import org.kie.workbench.common.dmn.api.definition.model.Relation;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITContext;
+import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDMNElement;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDecisionTable;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITExpression;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITFunctionDefinition;
@@ -44,7 +45,7 @@ import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.kie.JSITCo
 public class ExpressionPropertyConverter {
 
     public static Expression wbFromDMN(final JSITExpression dmn,
-                                       final JSITExpression parent,
+                                       final JSITDMNElement parent,
                                        final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer) {
         if (JSITLiteralExpression.instanceOf(dmn)) {
             final JSITLiteralExpression jsiExpression = Js.uncheckedCast(dmn);

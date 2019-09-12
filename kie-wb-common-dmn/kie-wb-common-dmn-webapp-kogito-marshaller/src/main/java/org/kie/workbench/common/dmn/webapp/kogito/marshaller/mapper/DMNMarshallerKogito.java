@@ -560,7 +560,7 @@ public class DMNMarshallerKogito {
         }
     }
 
-    private void changeAlias(final String alias,
+    void changeAlias(final String alias,
                              final JSITDRGElement drgElement) {
         if (drgElement.getId().contains(":")) {
             final String id = drgElement.getId().split(":")[1];

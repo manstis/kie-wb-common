@@ -45,6 +45,14 @@ public class QName {
 
     @JsConstructor
     public QName(final String namespaceURI,
+                 final String localPart) {
+        this(namespaceURI,
+             localPart,
+             XMLConstants.DEFAULT_NS_PREFIX);
+    }
+
+    @JsConstructor
+    public QName(final String namespaceURI,
                  final String localPart,
                  final String prefix) {
         if (namespaceURI == null) {

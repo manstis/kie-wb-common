@@ -21,6 +21,9 @@
 # Copied from dependencies when packaged
 /src/main/resources/org/kie/workbench/common/dmn/webapp/kogito/marshaller/js/Jsonix-all.js
 
+# Test generated files
+/war
+
 # Eclipse, Netbeans and IntelliJ files
 /.*
 /**/.*
