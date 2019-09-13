@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.dmn.model.api.InformationItem;
@@ -34,6 +35,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Ignore("WIP")
 @RunWith(MockitoJUnitRunner.class)
 public class InformationItemPrimaryPropertyConverterTest {
 

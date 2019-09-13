@@ -19,6 +19,7 @@ package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.workbench.common.dmn.api.definition.model.DRGElement;
 import org.kie.workbench.common.dmn.api.definition.model.Definitions;
@@ -29,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Ignore("WIP")
 public class HrefBuilderTest {
 
     @Test

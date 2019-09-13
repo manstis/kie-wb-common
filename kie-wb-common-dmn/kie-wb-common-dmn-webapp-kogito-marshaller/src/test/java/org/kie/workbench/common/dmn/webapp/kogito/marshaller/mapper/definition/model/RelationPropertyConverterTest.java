@@ -18,6 +18,7 @@ package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.workbench.common.dmn.api.definition.HasComponentWidths;
@@ -39,6 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
+@Ignore("WIP")
 @RunWith(MockitoJUnitRunner.class)
 public class RelationPropertyConverterTest {
 

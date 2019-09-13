@@ -16,6 +16,9 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import org.junit.Ignore;
+
+@Ignore("WIP")
 public class QNamePropertyConverterTest {
 
 //    static final Decision parent11 = new org.kie.dmn.model.v1_1.TDecision();

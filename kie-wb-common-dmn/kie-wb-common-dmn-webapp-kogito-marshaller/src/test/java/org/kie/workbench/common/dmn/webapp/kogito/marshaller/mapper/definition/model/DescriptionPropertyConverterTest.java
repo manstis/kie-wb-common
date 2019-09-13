@@ -16,12 +16,14 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.workbench.common.dmn.api.property.dmn.Description;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+@Ignore("WIP")
 public class DescriptionPropertyConverterTest {
 
     private static final String DESCRIPTION = "description";

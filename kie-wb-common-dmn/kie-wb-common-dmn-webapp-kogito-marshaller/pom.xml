@@ -69,13 +69,145 @@
     </dependency>
 
     <dependency>
-      <groupId>org.kie.workbench</groupId>
-      <artifactId>kie-wb-common-dmn-api</artifactId>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.soup</groupId>
+      <artifactId>kie-soup-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.soup</groupId>
+      <artifactId>kie-soup-project-datamodel-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-client-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-project-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-workbench-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-widgets-service-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-security-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-security-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-nio2-model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-preferences-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-workbench-client-views-patternfly</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-experimental-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-commons-editor-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-commons-editor-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-structure-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-widgets-table</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-services-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-runtime-plugins-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-adf-base</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-dynamic-forms-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-fields</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-adf-engine-api</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-forms-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
       <artifactId>kie-wb-common-stunner-core-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-shapes-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-core-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-client-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-client-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-backend-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench</groupId>
+      <artifactId>kie-wb-common-dmn-api</artifactId>
     </dependency>
 
     <dependency>
@@ -84,9 +216,13 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <scope>provided</scope>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <classifier>sources</classifier>
     </dependency>
 
     <!-- Test dependencies -->
@@ -104,8 +240,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.kie.workbench.stunner</groupId>
-      <artifactId>kie-wb-common-stunner-shapes-api</artifactId>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -139,6 +276,12 @@
               <directory>src/main/java/org/kie/workbench/common/dmn/webapp/kogito/marshaller/mapper</directory>
               <includes>
                 <include>JsUtils.java</include>
+              </includes>
+            </fileset>
+            <fileset>
+              <directory>war</directory>
+              <includes>
+                <include>**</include>
               </includes>
             </fileset>
 
@@ -211,7 +354,7 @@
         <executions>
           <execution>
             <id>move-generated-sources</id>
-            <phase>process-sources</phase>
+            <phase>process-resources</phase>
             <configuration>
               <failOnError>false</failOnError>
               <target>
@@ -226,8 +369,105 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <execution>
+            <id>move-js-to-war-for-tests</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${basedir}/war/org.kie.workbench.common.dmn.webapp.kogito.marshaller.DMNMarshaller.JUnit/js" flatten="true">
+                  <fileset dir="${basedir}/src/main/resources/org/kie/workbench/common/dmn/webapp/kogito/marshaller/js">
+                    <include name="**/*.js"/>
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <configuration>
+          <strict>true</strict>
+          <localWorkers>${gwt.compiler.localWorkers}</localWorkers>
+          <deploy>${project.build.directory}/gwt-symbols-deploy</deploy>
+          <draftCompile>true</draftCompile>
+          <extraJvmArgs>-Xmx4096m -Xms1024m -Xss1M -XX:CompileThreshold=7000</extraJvmArgs>
+          <module>org.kie.workbench.common.dmn.webapp.kogito.marshaller.DMNMarshaller</module>
+          <logLevel>INFO</logLevel>
+          <noServer>false</noServer>
+          <server>org.jboss.errai.cdi.server.gwt.EmbeddedWildFlyLauncher</server>
+          <disableCastChecking>true</disableCastChecking>
+          <runTarget>index.html</runTarget>
+          <hostedWebapp>src/main/webapp</hostedWebapp>
+          <gwtSdkFirstInClasspath>false</gwtSdkFirstInClasspath>
+          <logLevel>INFO</logLevel>
+
+          <compileSourcesArtifacts>
+            <compileSourcesArtifact>org.kie.soup:kie-soup-commons</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.soup:kie-soup-project-datamodel-api</compileSourcesArtifact>
+
+            <compileSourcesArtifact>org.uberfire:uberfire-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-client-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-project-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-widgets-service-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-nio2-model</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-preferences-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-commons</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-patternfly</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-experimental-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-commons-editor-client</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-commons-editor-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-structure-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-widgets-table</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-services-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.uberfire:uberfire-runtime-plugins-api</compileSourcesArtifact>
+
+            <compileSourcesArtifact>org.kie.workbench.forms:kie-wb-common-forms-adf-base</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.forms:kie-wb-common-dynamic-forms-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.forms:kie-wb-common-forms-fields</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.forms:kie-wb-common-forms-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.forms:kie-wb-common-forms-adf-engine-api</compileSourcesArtifact>
+
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-core-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-forms-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-shapes-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-core-common</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-client-api</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-client-common</compileSourcesArtifact>
+            <compileSourcesArtifact>org.kie.workbench.stunner:kie-wb-common-stunner-backend-api</compileSourcesArtifact>
+
+            <compileSourcesArtifact>org.kie.workbench:kie-wb-common-dmn-api</compileSourcesArtifact>
+          </compileSourcesArtifacts>
+
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>gwt-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>gwt-compile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>resources</goal>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -236,6 +476,7 @@
         </configuration>
       </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <plugin>

@@ -15,9 +15,11 @@
  */
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import org.junit.Ignore;
 import org.kie.workbench.common.dmn.api.definition.model.InputClauseLiteralExpression;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITLiteralExpression;
 
+@Ignore("WIP")
 public class InputClauseLiteralExpressionPropertyConverterTest extends BaseLiteralExpressionPropertyConverterTest<InputClauseLiteralExpression> {
 
     @Override

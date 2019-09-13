@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.workbench.common.dmn.api.definition.model.ConstraintType;
@@ -39,6 +40,7 @@ import static org.kie.workbench.common.dmn.api.definition.model.ConstraintType.E
 import static org.kie.workbench.common.dmn.api.definition.model.ConstraintType.RANGE;
 import static org.mockito.Mockito.when;
 
+@Ignore("WIP")
 @RunWith(MockitoJUnitRunner.class)
 public class UnaryTestsPropertyConverterTest {
 

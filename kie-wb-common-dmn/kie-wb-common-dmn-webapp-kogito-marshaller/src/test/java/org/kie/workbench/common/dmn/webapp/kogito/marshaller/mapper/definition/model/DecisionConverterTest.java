@@ -19,7 +19,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kie.workbench.common.dmn.api.definition.HasComponentWidths;
 import org.kie.workbench.common.dmn.api.definition.model.Decision;
 import org.kie.workbench.common.dmn.api.definition.model.InformationItemPrimary;
@@ -39,6 +41,7 @@ import org.kie.workbench.common.stunner.core.util.UUID;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.kie.workbench.common.stunner.core.definition.adapter.binding.BindableAdapterUtils.getDefinitionId;
@@ -47,7 +50,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-//@RunWith(MockitoJUnitRunner.class)
+@Ignore("WIP")
+@RunWith(MockitoJUnitRunner.class)
 public class DecisionConverterTest extends BaseKogitoGwtTestCase {
 
     private static final String DECISION_UUID = "d-uuid";

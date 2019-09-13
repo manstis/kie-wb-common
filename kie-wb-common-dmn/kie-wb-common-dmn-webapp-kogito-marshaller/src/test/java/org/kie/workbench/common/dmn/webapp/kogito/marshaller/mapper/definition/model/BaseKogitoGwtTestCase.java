@@ -27,12 +27,12 @@ public class BaseKogitoGwtTestCase extends GWTTestCase {
 
     @Override
     public void gwtSetUp() {
-        ScriptInjector.fromUrl("model/Jsonix-all.js").inject();
-        ScriptInjector.fromUrl("model/DC.js").inject();
-        ScriptInjector.fromUrl("model/DI.js").inject();
-        ScriptInjector.fromUrl("model/DMNDI12.js").inject();
-        ScriptInjector.fromUrl("model/DMN12.js").inject();
-        ScriptInjector.fromUrl("model/KIE.js").inject();
-        ScriptInjector.fromUrl("model/MainJs.js").inject();
+        ScriptInjector.fromUrl("js/Jsonix-all.js").inject();
+        ScriptInjector.fromUrl("js/DC.js").inject();
+        ScriptInjector.fromUrl("js/DI.js").inject();
+        ScriptInjector.fromUrl("js/DMNDI12.js").inject();
+        ScriptInjector.fromUrl("js/DMN12.js").inject();
+        ScriptInjector.fromUrl("js/KIE.js").inject();
+        ScriptInjector.fromUrl("js/MainJs.js").inject();
     }
 }

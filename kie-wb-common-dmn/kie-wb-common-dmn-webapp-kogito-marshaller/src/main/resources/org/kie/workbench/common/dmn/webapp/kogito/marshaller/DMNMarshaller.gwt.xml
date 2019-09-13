@@ -19,6 +19,42 @@
 <module>
 
   <inherits name="jsinterop.base.Base"/>
+
+  <inherits name="org.kie.soup.commons.KIESoupCommons"/>
+  <inherits name="org.kie.soup.project.datamodel.ProjectDataModelAPI"/>
+
+  <inherits name="org.uberfire.UberfireAPI"/>
+  <inherits name="org.uberfire.UberfireClientAPI"/>
+  <inherits name="org.guvnor.common.services.project.GuvnorProjectAPI"/>
+  <inherits name="org.uberfire.UberfireWorkbench"/>
+  <inherits name="org.uberfire.ext.services.UberfireWidgetsServicesAPI"/>
+  <inherits name="org.uberfire.security.UberfireSecurityAPI"/>
+  <inherits name="org.uberfire.security.UberfireSecurityClient"/>
+  <inherits name="org.uberfire.java.nio.UberfireNIO2Model"/>
+  <inherits name="org.uberfire.preferences.UberfirePreferencesAPI"/>
+  <inherits name="org.uberfire.commons.UberfireCommons"/>
+  <inherits name="org.uberfire.client.views.PatternFly"/>
+  <inherits name="org.uberfire.experimental.UberfireExperimentalAPI"/>
+  <inherits name="org.uberfire.ext.editor.commons.UberfireCommonsEditorAPI"/>
+  <inherits name="org.uberfire.ext.editor.commons.UberfireCommonsEditorClient"/>
+  <inherits name="org.guvnor.structure.GuvnorStructureAPI"/>
+  <inherits name="org.uberfire.ext.widgets.table.UberfireTableWidget"/>
+  <inherits name="org.guvnor.common.services.GuvnorServicesAPI"/>
+  <inherits name="org.uberfire.ext.plugin.RuntimePluginAPI"/>
+
+  <inherits name="org.kie.workbench.common.forms.adf.AnnotationDrivenFormsBase"/>
+  <inherits name="org.kie.workbench.common.forms.dynamic.DynamicFormsAPI"/>
+  <inherits name="org.kie.workbench.common.forms.fields.BasicFormFields"/>
+  <inherits name="org.kie.workbench.common.forms.FormsAPI"/>
+  <inherits name="org.kie.workbench.common.forms.adf.engine.AnnotationDrivenFormsEngineAPI"/>
+
+  <inherits name="org.kie.workbench.common.stunner.forms.StunnerFormsAPI"/>
+  <inherits name="org.kie.workbench.common.stunner.core.StunnerCoreApi"/>
+  <inherits name="org.kie.workbench.common.stunner.shapes.StunnerShapesApi"/>
+  <inherits name="org.kie.workbench.common.stunner.core.StunnerCoreCommon"/>
+  <inherits name="org.kie.workbench.common.stunner.core.StunnerClientApi"/>
+  <inherits name="org.kie.workbench.common.stunner.core.StunnerBackendApi"/>
+
   <inherits name="org.kie.workbench.common.dmn.DMNAPI"/>
 
   <!-- We don't need to support IE10 or older -->

@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import jsinterop.base.JsArrayLike;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.dmn.model.v1_2.TLiteralExpression;
@@ -51,6 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
+@Ignore("WIP")
 @RunWith(MockitoJUnitRunner.class)
 public class ExpressionPropertyConverterTest {
 
