@@ -88,11 +88,76 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
     </dependency>
+
+    <!-- Testing scope. -->
+
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.kie.soup</groupId>
+      <artifactId>kie-soup-commons</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-api</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-project-api</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench</groupId>
+      <artifactId>kie-wb-common-dmn-api</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-core-api</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-core-common</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.stunner</groupId>
+      <artifactId>kie-wb-common-stunner-shapes-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie.workbench.forms</groupId>
+      <artifactId>kie-wb-common-forms-adf-base</artifactId>
+      <classifier>sources</classifier>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -126,6 +191,9 @@
                 <include>JsUtils.java</include>
                 <include>JSIName.java</include>
               </includes>
+            </fileset>
+            <fileset>
+              <directory>war</directory>
             </fileset>
           </filesets>
         </configuration>
@@ -201,7 +269,7 @@
         <executions>
           <execution>
             <id>move-generated-sources</id>
-            <phase>process-sources</phase>
+            <phase>process-resources</phase>
             <configuration>
               <failOnError>false</failOnError>
               <target>
@@ -230,7 +298,29 @@
           </excludes>
         </configuration>
       </plugin>
+      <!-- GWT test cases present. -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${basedir}/target/classes/</additionalClasspathElement>
+            <additionalClasspathElement>${basedir}/src/main/java/</additionalClasspathElement>
+            <additionalClasspathElement>${basedir}/src/test/java/</additionalClasspathElement>
+          </additionalClasspathElements>
+          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <forkMode>pertest</forkMode>
+          <argLine>-Xmx1500m -Derrai.devel.nocache=true -Derrai.codegen.permissive=false -Derrai.dynamic_validation.enabled=true</argLine>
+          <systemProperties>
+            <!-- Must disable long polling for automated tests to succeed -->
+            <property>
+              <name>errai.hosted_mode_testing</name>
+              <value>true</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <plugin>
