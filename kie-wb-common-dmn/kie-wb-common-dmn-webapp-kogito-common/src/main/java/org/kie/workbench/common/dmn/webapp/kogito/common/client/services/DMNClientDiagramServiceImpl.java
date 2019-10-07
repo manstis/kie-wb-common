@@ -59,7 +59,7 @@ import org.uberfire.client.promise.Promises;
 import org.uberfire.commons.uuid.UUID;
 
 @ApplicationScoped
-public class KogitoClientDiagramServiceImpl implements KogitoClientDiagramService {
+public class DMNClientDiagramServiceImpl implements KogitoClientDiagramService {
 
     private static final String DIAGRAMS_PATH = "diagrams";
 
@@ -73,17 +73,17 @@ public class KogitoClientDiagramServiceImpl implements KogitoClientDiagramServic
     private DMNDiagramFactory dmnDiagramFactory;
     private Promises promises;
 
-    public KogitoClientDiagramServiceImpl() {
+    public DMNClientDiagramServiceImpl() {
         //CDI proxy
     }
 
     @Inject
-    public KogitoClientDiagramServiceImpl(final DMNMarshallerKogitoUnmarshaller dmnMarshallerKogitoUnmarshaller,
-                                          final DMNMarshallerKogitoMarshaller dmnMarshallerKogitoMarshaller,
-                                          final FactoryManager factoryManager,
-                                          final DefinitionManager definitionManager,
-                                          final DMNDiagramFactory dmnDiagramFactory,
-                                          final Promises promises) {
+    public DMNClientDiagramServiceImpl(final DMNMarshallerKogitoUnmarshaller dmnMarshallerKogitoUnmarshaller,
+                                       final DMNMarshallerKogitoMarshaller dmnMarshallerKogitoMarshaller,
+                                       final FactoryManager factoryManager,
+                                       final DefinitionManager definitionManager,
+                                       final DMNDiagramFactory dmnDiagramFactory,
+                                       final Promises promises) {
         this.dmnMarshallerKogitoUnmarshaller = dmnMarshallerKogitoUnmarshaller;
         this.dmnMarshallerKogitoMarshaller = dmnMarshallerKogitoMarshaller;
         this.factoryManager = factoryManager;
@@ -196,10 +196,10 @@ public class KogitoClientDiagramServiceImpl implements KogitoClientDiagramServic
             return;
         }
 
-        final DMN12MarshallCallback jsCallback = r -> {
-            String xml = r;
-            if (!xml.startsWith("<?xml version=\"1.0\" ?>")) {
-                xml = "<?xml version=\"1.0\" ?>" + xml;
+        final DMN12MarshallCallback jsCallback = xml -> {
+            String breakpoint = xml;
+            if (!breakpoint.startsWith("<?xml version=\"1.0\" ?>")) {
+                breakpoint = "<?xml version=\"1.0\" ?>" + breakpoint;
             }
             resolveCallbackFn.onInvoke(xml);
         };
@@ -222,9 +222,9 @@ public class KogitoClientDiagramServiceImpl implements KogitoClientDiagramServic
         jsiName.setPrefix("dmn");
         jsiName.setLocalPart("definitions");
         final String key = "{" + jsiName.getNamespaceURI() + "}" + jsiName.getLocalPart();
-        final String string = "{" + jsiName.getNamespaceURI() + "}" + jsiName.getPrefix() + ":" + jsiName.getLocalPart();
+        final String keyString = "{" + jsiName.getNamespaceURI() + "}" + jsiName.getPrefix() + ":" + jsiName.getLocalPart();
         jsiName.setKey(key);
-        jsiName.setString(string);
+        jsiName.setString(keyString);
         return jsiName;
     }
 }
