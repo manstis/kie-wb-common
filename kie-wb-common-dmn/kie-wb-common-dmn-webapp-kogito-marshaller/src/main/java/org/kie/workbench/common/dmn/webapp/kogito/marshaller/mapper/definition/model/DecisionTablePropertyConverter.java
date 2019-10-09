@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,7 @@ public class DecisionTablePropertyConverter {
         for (int i = 0; i < jsiDecisionRules.size(); i++) {
             final JSITDecisionRule dr = Js.uncheckedCast(jsiDecisionRules.get(i));
             final DecisionRule decisionRuleConverted = DecisionRulePropertyConverter.wbFromDMN(dr);
-            if (decisionRuleConverted != null) {
+            if (Objects.nonNull(decisionRuleConverted)) {
                 decisionRuleConverted.setParent(result);
             }
             result.getRule().add(decisionRuleConverted);
@@ -125,7 +125,7 @@ public class DecisionTablePropertyConverter {
             final JSITDecisionRule c = DecisionRulePropertyConverter.dmnFromWB(dr);
             result.addRule(c);
         }
-        if (wb.getHitPolicy() != null) {
+        if (Objects.nonNull(wb.getHitPolicy())) {
             switch (wb.getHitPolicy()) {
                 case ANY:
                     result.setHitPolicy(Js.uncheckedCast(JSITHitPolicy.ANY.value()));
@@ -150,11 +150,11 @@ public class DecisionTablePropertyConverter {
                     break;
             }
         }
-        if (wb.getAggregation() != null) {
+        if (Objects.nonNull(wb.getAggregation())) {
             final String wbBuiltinAggregator = wb.getAggregation().value();
             result.setAggregation(Js.uncheckedCast(wbBuiltinAggregator));
         }
-        if (wb.getPreferredOrientation() != null) {
+        if (Objects.nonNull(wb.getPreferredOrientation())) {
             final String wbPreferredOrientation = wb.getPreferredOrientation().value();
             result.setPreferredOrientation(Js.uncheckedCast(wbPreferredOrientation));
         }

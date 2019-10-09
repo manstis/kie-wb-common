@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -57,14 +58,14 @@ public class RelationPropertyConverter {
         }
 
         final Relation result = new Relation(id, description, typeRef, convertedColumns, convertedRows);
-        for (InformationItem c : convertedColumns) {
-            if (c != null) {
-                c.setParent(result);
+        for (InformationItem column : convertedColumns) {
+            if (Objects.nonNull(column)) {
+                column.setParent(result);
             }
         }
-        for (org.kie.workbench.common.dmn.api.definition.model.List r : convertedRows) {
-            if (r != null) {
-                r.setParent(result);
+        for (org.kie.workbench.common.dmn.api.definition.model.List row : convertedRows) {
+            if (Objects.nonNull(row)) {
+                row.setParent(result);
             }
         }
         return result;

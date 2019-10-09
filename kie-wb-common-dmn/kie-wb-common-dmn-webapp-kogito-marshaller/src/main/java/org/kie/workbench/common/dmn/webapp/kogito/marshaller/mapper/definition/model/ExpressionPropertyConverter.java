@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ public class ExpressionPropertyConverter {
                                            final Consumer<JSITComponentWidths> componentWidthsConsumer) {
         // SPECIAL CASE: to represent a partially edited DMN file.
         // reference above.
-        if (wb == null) {
+        if (Objects.isNull(wb)) {
             final JSITLiteralExpression mockedExpression = new JSITLiteralExpression();
             final JSITLiteralExpression wrappedMockedExpression = getWrappedJSITLiteralExpression(mockedExpression, "dmn", "literalExpression");
             return wrappedMockedExpression;
@@ -123,11 +123,7 @@ public class ExpressionPropertyConverter {
             wb.getComponentWidths()
                     .stream()
                     .filter(Objects::nonNull)
-                    .forEach(w -> {
-                        final double dw = w;
-                        final float fw = (float) dw;
-                        componentWidths.addWidth(fw);
-                    });
+                    .forEach(w -> componentWidths.addWidth(new Float(w)));
             componentWidthsConsumer.accept(componentWidths);
         }
 

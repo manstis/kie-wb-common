@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package org.kie.workbench.common.dmn.showcase.client.editor;
 
 import java.util.function.Consumer;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -65,20 +65,28 @@ import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.mvp.PlaceManager;
+import org.uberfire.client.promise.Promises;
 import org.uberfire.client.views.pfly.multipage.MultiPageEditorSelectedPageEvent;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
+import org.uberfire.lifecycle.OnStartup;
+import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 import org.uberfire.workbench.model.menu.Menus;
 
-@ApplicationScoped
+import static org.uberfire.ext.editor.commons.client.resources.i18n.CommonConstants.INSTANCE;
+
+@Dependent
 @DiagramEditor
 @WorkbenchScreen(identifier = BaseDMNDiagramEditor.EDITOR_ID)
 public class DMNDiagramEditor extends BaseDMNDiagramEditor {
 
+    public static final String CONTENT_PARAMETER_NAME = "content";
+
     private final Event<NotificationEvent> notificationEvent;
     private final DMNDiagramKogitoWrapper stateHolder;
+    private final Promises promises;
 
     @Inject
     public DMNDiagramEditor(final View view,
@@ -110,7 +118,8 @@ public class DMNDiagramEditor extends BaseDMNDiagramEditor {
                             final IncludedModelsPage includedModelsPage,
                             final IncludedModelsPageStateProviderImpl importsPageProvider,
                             final KogitoClientDiagramService diagramServices,
-                            final DMNDiagramKogitoWrapper stateHolder) {
+                            final DMNDiagramKogitoWrapper stateHolder,
+                            final Promises promises) {
         super(view,
               fileMenuBuilder,
               placeManager,
@@ -142,6 +151,16 @@ public class DMNDiagramEditor extends BaseDMNDiagramEditor {
               diagramServices);
         this.notificationEvent = notificationEvent;
         this.stateHolder = stateHolder;
+        this.promises = promises;
+    }
+
+    @Override
+    @OnStartup
+    @SuppressWarnings("unused")
+    public void onStartup(final PlaceRequest place) {
+        super.onStartup(place);
+
+        setContent(place.getParameter(CONTENT_PARAMETER_NAME, ""));
     }
 
     @Override
@@ -166,22 +185,28 @@ public class DMNDiagramEditor extends BaseDMNDiagramEditor {
         super.getMenus(menusConsumer);
     }
 
+    @SuppressWarnings("unchecked")
     private void doSave() {
         final Path path = getCanvasHandler().getDiagram().getMetadata().getPath();
-        stateHolder.saveFile(path,
-                             new ServiceCallback<String>() {
-                                 @Override
-                                 public void onSuccess(final String xml) {
-                                     resetContentHash();
-                                     notificationEvent.fire(new NotificationEvent(org.uberfire.ext.editor.commons.client.resources.i18n.CommonConstants.INSTANCE.ItemSavedSuccessfully()));
-                                     hideLoadingViews();
-                                 }
 
-                                 @Override
-                                 public void onError(final ClientRuntimeError error) {
-                                     onSaveError(error);
-                                 }
-                             });
+        getContent().then(xml -> {
+            stateHolder.saveFile(path,
+                                 (String) xml,
+                                 new ServiceCallback<String>() {
+                                     @Override
+                                     public void onSuccess(final String xml) {
+                                         resetContentHash();
+                                         notificationEvent.fire(new NotificationEvent(INSTANCE.ItemSavedSuccessfully()));
+                                         hideLoadingViews();
+                                     }
+
+                                     @Override
+                                     public void onError(final ClientRuntimeError error) {
+                                         onSaveError(error);
+                                     }
+                                 });
+            return promises.resolve();
+        });
     }
 
     @Override

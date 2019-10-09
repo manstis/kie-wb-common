@@ -15,6 +15,8 @@
  */
 package javax.xml.namespace;
 
+import java.util.Objects;
+
 import javax.xml.XMLConstants;
 
 import jsinterop.annotations.JsConstructor;
@@ -23,6 +25,9 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import org.kie.workbench.common.stunner.core.util.StringUtils;
 
+/**
+ * GWT Super-source version of javax.xml.namespace.QName.
+ */
 @JsType(namespace = JsPackage.GLOBAL)
 public class QName {
 
@@ -60,21 +65,19 @@ public class QName {
     public QName(final String namespaceURI,
                  final String localPart,
                  final String prefix) {
-        if (namespaceURI == null) {
+        if (Objects.isNull(namespaceURI)) {
             setNamespaceURI(XMLConstants.NULL_NS_URI);
         } else {
             setNamespaceURI(namespaceURI);
         }
 
-        if (localPart == null) {
-            throw new IllegalArgumentException(
-                    "local part cannot be \"null\" when creating a QName");
+        if (Objects.isNull(localPart)) {
+            throw new IllegalArgumentException("local part cannot be \"null\" when creating a QName");
         }
         setLocalPart(localPart);
 
-        if (prefix == null) {
-            throw new IllegalArgumentException(
-                    "prefix cannot be \"null\" when creating a QName");
+        if (Objects.isNull(prefix)) {
+            throw new IllegalArgumentException("prefix cannot be \"null\" when creating a QName");
         }
         setPrefix(prefix);
 
@@ -97,9 +100,8 @@ public class QName {
     public static QName valueOf(final String qNameAsString) {
 
         // null is not valid
-        if (qNameAsString == null) {
-            throw new IllegalArgumentException(
-                    "cannot create QName from \"null\" or \"\" String");
+        if (Objects.isNull(qNameAsString)) {
+            throw new IllegalArgumentException("cannot create QName from \"null\"");
         }
 
         // "" local part is valid to preserve compatible behavior with QName 1.0
@@ -118,23 +120,21 @@ public class QName {
 
         // Namespace URI improperly specified?
         if (qNameAsString.startsWith("{" + XMLConstants.NULL_NS_URI + "}")) {
-            throw new IllegalArgumentException(
-                    "Namespace URI .equals(XMLConstants.NULL_NS_URI), "
-                            + ".equals(\"" + XMLConstants.NULL_NS_URI + "\"), "
-                            + "only the local part, "
-                            + "\""
-                            + qNameAsString.substring(2 + XMLConstants.NULL_NS_URI.length())
-                            + "\", "
-                            + "should be provided.");
+            throw new IllegalArgumentException("Namespace URI .equals(XMLConstants.NULL_NS_URI), "
+                                                       + ".equals(\"" + XMLConstants.NULL_NS_URI + "\"), "
+                                                       + "only the local part, "
+                                                       + "\""
+                                                       + qNameAsString.substring(2 + XMLConstants.NULL_NS_URI.length())
+                                                       + "\", "
+                                                       + "should be provided.");
         }
 
         // Namespace URI and local part specified
-        int endOfNamespaceURI = qNameAsString.indexOf('}');
+        final int endOfNamespaceURI = qNameAsString.indexOf('}');
         if (endOfNamespaceURI == -1) {
-            throw new IllegalArgumentException(
-                    "cannot create QName from \""
-                            + qNameAsString
-                            + "\", missing closing \"}\"");
+            throw new IllegalArgumentException("cannot create QName from \""
+                                                       + qNameAsString
+                                                       + "\", missing closing \"}\"");
         }
         return new javax.xml.namespace.QName(qNameAsString.substring(1, endOfNamespaceURI),
                                              qNameAsString.substring(endOfNamespaceURI + 1),

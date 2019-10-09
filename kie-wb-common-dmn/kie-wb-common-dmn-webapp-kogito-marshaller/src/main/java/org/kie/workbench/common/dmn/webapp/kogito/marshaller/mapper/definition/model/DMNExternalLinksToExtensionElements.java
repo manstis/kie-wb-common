@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import jsinterop.base.Js;
+import org.kie.workbench.common.dmn.api.definition.model.DRGElement;
 import org.kie.workbench.common.dmn.api.property.dmn.DMNExternalLink;
 import org.kie.workbench.common.dmn.api.property.dmn.DocumentationLinks;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDMNElement;
@@ -30,7 +31,7 @@ import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.kie.JSITAt
 class DMNExternalLinksToExtensionElements {
 
     static void loadExternalLinksFromExtensionElements(final JSITDRGElement source,
-                                                       final org.kie.workbench.common.dmn.api.definition.model.DRGElement target) {
+                                                       final DRGElement target) {
 
         if (!Objects.isNull(source.getExtensionElements())) {
             final List<Object> extensions = source.getExtensionElements().getAny();
@@ -49,7 +50,7 @@ class DMNExternalLinksToExtensionElements {
         }
     }
 
-    static void loadExternalLinksIntoExtensionElements(final org.kie.workbench.common.dmn.api.definition.model.DRGElement source,
+    static void loadExternalLinksIntoExtensionElements(final DRGElement source,
                                                        final JSITDRGElement target) {
 
         if (Objects.isNull(source.getLinksHolder()) || Objects.isNull(source.getLinksHolder().getValue())) {
@@ -72,7 +73,7 @@ class DMNExternalLinksToExtensionElements {
 
     private static void removeAllExistingLinks(final JSITDMNElement.JSIExtensionElements elements) {
         final JSITDMNElement.JSIExtensionElements others = new JSITDMNElement.JSIExtensionElements();
-        // TODO {gcardosi} add because present in original json
+        // Add because it is present in the original JSON when unmarshalling
         others.setAny(new ArrayList<>());
         final List<Object> any = elements.getAny();
         for (int i = 0; i < any.size(); i++) {
@@ -85,8 +86,8 @@ class DMNExternalLinksToExtensionElements {
     }
 
     private static JSITDMNElement.JSIExtensionElements getOrCreateExtensionElements(final JSITDRGElement target) {
-        // TODO {gcardosi} add because  present in original json
-        JSITDMNElement.JSIExtensionElements toReturn = target.getExtensionElements() == null
+        // Add because it is present in the original JSON when unmarshalling
+        JSITDMNElement.JSIExtensionElements toReturn = Objects.isNull(target.getExtensionElements())
                 ? new JSITDMNElement.JSIExtensionElements()
                 : target.getExtensionElements();
         if (!Objects.isNull(toReturn) && Objects.isNull(toReturn.getAny())) {

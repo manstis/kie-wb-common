@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ import org.kie.workbench.common.stunner.core.graph.content.view.View;
 
 import static org.kie.workbench.common.stunner.core.definition.adapter.binding.BindableAdapterUtils.getDefinitionId;
 
-public class DecisionServiceConverter implements NodeConverter<JSITDecisionService, org.kie.workbench.common.dmn.api.definition.model.DecisionService> {
+public class DecisionServiceConverter implements NodeConverter<JSITDecisionService, DecisionService> {
 
     private FactoryManager factoryManager;
 
@@ -135,7 +135,7 @@ public class DecisionServiceConverter implements NodeConverter<JSITDecisionServi
                                                                     new DecisionServiceDividerLineY());
         node.getContent().setDefinition(decisionService);
 
-        if (informationItem != null) {
+        if (Objects.nonNull(informationItem)) {
             informationItem.setParent(decisionService);
         }
 

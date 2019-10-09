@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper;
+package org.kie.workbench.common.kogito.webapp.base.client.workarounds;
 
-import org.junit.Test;
+import javax.enterprise.inject.Alternative;
 
-public class DMNMarshallerKogitoTest {
+@Alternative
+public class IsKogito extends org.kie.workbench.common.widgets.client.kogito.IsKogito {
 
-
-    public void setup() {
-
-    }
-
-    @Test
-    public void unmarshall() {
-
+    public boolean get() {
+        return true;
     }
 }

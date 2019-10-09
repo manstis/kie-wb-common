@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,10 +98,10 @@ public class DecisionConverter implements NodeConverter<JSITDecision, org.kie.wo
         decision.setAllowedAnswers(AllowedAnswersPropertyConverter.wbFromDMN(dmn.getAllowedAnswers()));
         node.getContent().setDefinition(decision);
 
-        if (informationItem != null) {
+        if (Objects.nonNull(informationItem)) {
             informationItem.setParent(decision);
         }
-        if (expression != null) {
+        if (Objects.nonNull(expression)) {
             expression.setParent(decision);
         }
 
@@ -124,7 +124,7 @@ public class DecisionConverter implements NodeConverter<JSITDecision, org.kie.wo
         final JSITExpression expression = ExpressionPropertyConverter.dmnFromWB(source.getExpression(),
                                                                                 componentWidthsConsumer);
 
-        if (expression != null) {
+        if (Objects.nonNull(expression)) {
             d.setExpression(expression);
         }
         final String question = QuestionPropertyConverter.dmnFromWB(source.getQuestion());
@@ -135,15 +135,15 @@ public class DecisionConverter implements NodeConverter<JSITDecision, org.kie.wo
         if (!StringUtils.isEmpty(allowedAnswers)) {
             d.setAllowedAnswers(allowedAnswers);
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(d.getInformationRequirement())) {
             d.setInformationRequirement(new ArrayList<>());
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(d.getKnowledgeRequirement())) {
             d.setKnowledgeRequirement(new ArrayList<>());
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(d.getAuthorityRequirement())) {
             d.setAuthorityRequirement(new ArrayList<>());
         }

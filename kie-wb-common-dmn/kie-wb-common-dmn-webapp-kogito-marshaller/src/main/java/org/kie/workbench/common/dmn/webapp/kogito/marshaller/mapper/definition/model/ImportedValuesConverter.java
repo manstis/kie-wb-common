@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.kie.workbench.common.dmn.api.definition.model.ImportedValues;
@@ -27,7 +28,7 @@ import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSIT
 public class ImportedValuesConverter {
 
     public static ImportedValues wbFromDMN(final JSITImportedValues dmn) {
-        if (dmn == null) {
+        if (Objects.isNull(dmn)) {
             return null;
         }
         final String namespace = dmn.getNamespace();
@@ -43,13 +44,13 @@ public class ImportedValuesConverter {
         final String name = dmn.getName();
         final String description = dmn.getDescription();
         wb.setId(IdPropertyConverter.wbFromDMN(dmn.getId()));
-        wb.setName(new Name(name != null ? name : wb.getId().getValue()));
+        wb.setName(new Name(Objects.nonNull(name) ? name : wb.getId().getValue()));
         wb.setDescription(DescriptionPropertyConverter.wbFromDMN(description));
         return wb;
     }
 
     public static JSITImportedValues dmnFromWB(final ImportedValues wb) {
-        if (wb == null) {
+        if (Objects.isNull(wb)) {
             return null;
         }
         final JSITImportedValues dmn = new JSITImportedValues();

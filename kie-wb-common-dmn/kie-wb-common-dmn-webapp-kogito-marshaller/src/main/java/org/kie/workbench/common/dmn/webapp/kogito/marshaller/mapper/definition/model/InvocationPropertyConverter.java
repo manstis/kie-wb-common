@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class InvocationPropertyConverter {
 
     public static Invocation wbFromDMN(final JSITInvocation dmn,
                                        final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer) {
-        if (dmn == null) {
+        if (Objects.isNull(dmn)) {
             return null;
         }
         final Id id = IdPropertyConverter.wbFromDMN(dmn.getId());
@@ -57,7 +57,7 @@ public class InvocationPropertyConverter {
                                                                                      Js.uncheckedCast(dmn),
                                                                                      hasComponentWidthsConsumer);
         result.setExpression(convertedExpression);
-        if (convertedExpression != null) {
+        if (Objects.nonNull(convertedExpression)) {
             convertedExpression.setParent(result);
         }
 
@@ -77,7 +77,7 @@ public class InvocationPropertyConverter {
 
     public static JSITInvocation dmnFromWB(final Invocation wb,
                                            final Consumer<JSITComponentWidths> componentWidthsConsumer) {
-        if (wb == null) {
+        if (Objects.isNull(wb)) {
             return null;
         }
         final JSITInvocation result = new JSITInvocation();

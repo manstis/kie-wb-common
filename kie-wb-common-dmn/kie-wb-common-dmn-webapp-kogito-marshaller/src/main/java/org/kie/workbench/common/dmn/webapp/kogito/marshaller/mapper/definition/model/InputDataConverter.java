@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -38,7 +39,7 @@ import org.kie.workbench.common.stunner.core.graph.content.view.View;
 
 import static org.kie.workbench.common.stunner.core.definition.adapter.binding.BindableAdapterUtils.getDefinitionId;
 
-public class InputDataConverter implements NodeConverter<JSITInputData, org.kie.workbench.common.dmn.api.definition.model.InputData> {
+public class InputDataConverter implements NodeConverter<JSITInputData, InputData> {
 
     private FactoryManager factoryManager;
 
@@ -67,7 +68,7 @@ public class InputDataConverter implements NodeConverter<JSITInputData, org.kie.
                                                   new GeneralRectangleDimensionsSet());
         node.getContent().setDefinition(inputData);
 
-        if (informationItem != null) {
+        if (Objects.nonNull(informationItem)) {
             informationItem.setParent(inputData);
         }
 

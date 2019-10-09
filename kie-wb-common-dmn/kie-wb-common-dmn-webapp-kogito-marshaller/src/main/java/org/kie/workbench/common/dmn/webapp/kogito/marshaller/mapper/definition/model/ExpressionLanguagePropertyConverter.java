@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,15 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import java.util.Objects;
+
 import org.kie.workbench.common.dmn.api.property.dmn.ExpressionLanguage;
 import org.kie.workbench.common.stunner.core.util.StringUtils;
 
 public class ExpressionLanguagePropertyConverter {
 
     public static ExpressionLanguage wbFromDMN(final String language) {
-        if (language == null) {
+        if (Objects.isNull(language)) {
             return new ExpressionLanguage("");
         } else {
             return new ExpressionLanguage(language);
@@ -30,7 +32,7 @@ public class ExpressionLanguagePropertyConverter {
     }
 
     public static String dmnFromWB(final ExpressionLanguage language) {
-        if (language == null) {
+        if (Objects.isNull(language)) {
             return null;
         } else if (StringUtils.isEmpty(language.getValue())) {
             return null;

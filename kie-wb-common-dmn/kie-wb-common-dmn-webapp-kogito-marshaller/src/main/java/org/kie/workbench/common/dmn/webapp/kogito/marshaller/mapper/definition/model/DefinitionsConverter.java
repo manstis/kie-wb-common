@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class DefinitionsConverter {
     public static Definitions wbFromDMN(final JSITDefinitions dmn,
                                         final Map<JSITImport, JSITDefinitions> importDefinitions,
                                         final Map<JSITImport, PMMLDocumentMetadata> pmmlDocuments) {
-        if (dmn == null) {
+        if (Objects.isNull(dmn)) {
             return null;
         }
         final Id id = IdPropertyConverter.wbFromDMN(dmn.getId());
@@ -112,14 +112,14 @@ public class DefinitionsConverter {
     }
 
     public static JSITDefinitions dmnFromWB(final Definitions wb) {
-        if (wb == null) {
+        if (Objects.isNull(wb)) {
             return null;
         }
         final JSITDefinitions result = new JSITDefinitions();
 
         // TODO currently DMN wb UI does not offer feature to set these required DMN properties, setting some hardcoded defaults for now.
-        final String defaultId = (wb.getId() != null) ? wb.getId().getValue() : UUID.uuid();
-        final String defaultName = (wb.getName() != null) ? wb.getName().getValue() : UUID.uuid(8);
+        final String defaultId = Objects.nonNull(wb.getId()) ? wb.getId().getValue() : UUID.uuid();
+        final String defaultName = Objects.nonNull(wb.getName()) ? wb.getName().getValue() : UUID.uuid(8);
         final String defaultNamespace = !StringUtils.isEmpty(wb.getNamespace().getValue())
                 ? wb.getNamespace().getValue()
                 : DMNModelInstrumentedBase.Namespace.DEFAULT.getUri() + UUID.uuid();
@@ -149,16 +149,9 @@ public class DefinitionsConverter {
                                     v);
             }
         });
-        // TODO {gcardosi} commented out as per {manstis} suggestion
-//        otherAttributes.put(new QName(XMLConstants.NULL_NS_URI,
-//                                      "id",
-//                                      XMLConstants.DEFAULT_NS_PREFIX), result.getId());
-//        otherAttributes.put(new QName("",
-//                                      "name",
-//                                      XMLConstants.NULL_NS_URI), result.getName());
         result.setOtherAttributes(otherAttributes);
 
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(result.getItemDefinition())) {
             result.setItemDefinition(new ArrayList<>());
         }
@@ -166,15 +159,15 @@ public class DefinitionsConverter {
             final JSITItemDefinition itemDefConverted = ItemDefinitionPropertyConverter.dmnFromWB(itemDef);
             result.addItemDefinition(itemDefConverted);
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(result.getImport())) {
             result.setImport(new ArrayList<>());
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(result.getDrgElement())) {
             result.setDrgElement(new ArrayList<>());
         }
-        // TODO {gcardosi} add because  present in original json
+        // Add because it is present in the original JSON when unmarshalling
         if (Objects.isNull(result.getArtifact())) {
             result.setArtifact(new ArrayList<>());
         }

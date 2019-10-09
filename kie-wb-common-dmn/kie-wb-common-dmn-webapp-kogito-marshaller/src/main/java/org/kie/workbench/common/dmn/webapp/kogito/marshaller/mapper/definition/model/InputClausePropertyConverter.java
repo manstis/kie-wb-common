@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.definition.model;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.kie.workbench.common.dmn.api.definition.model.InputClause;
@@ -41,10 +42,10 @@ public class InputClausePropertyConverter {
                                                    inputExpression,
                                                    inputValues);
 
-        if (inputExpression != null) {
+        if (Objects.nonNull(inputExpression)) {
             inputExpression.setParent(result);
         }
-        if (inputValues != null) {
+        if (Objects.nonNull(inputValues)) {
             inputValues.setParent(result);
         }
 
@@ -61,7 +62,7 @@ public class InputClausePropertyConverter {
 
         result.setInputExpression(expression);
 
-        if (inputValues != null && StringUtils.nonEmpty(inputValues.getText())) {
+        if (Objects.nonNull(inputValues) && StringUtils.nonEmpty(inputValues.getText())) {
             result.setInputValues(inputValues);
         }
 

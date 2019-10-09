@@ -14,16 +14,8 @@
  * limitations under the License.
  */
 
-package org.kie.workbench.common.kogito.webapp.base.client.workarounds;
+/**
+ * Container for GWT "super source" files where GWT does not provide an emulation of JRE classes.
+ * See http://www.gwtproject.org/doc/latest/DevGuideOrganizingProjects.html
+ */
 
-import javax.enterprise.inject.Alternative;
-
-import org.kie.workbench.common.widgets.client.kogito.IsKogito;
-
-@Alternative
-public class MockIsKogito extends IsKogito {
-
-    public boolean get() {
-        return true;
-    }
-}

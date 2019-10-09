@@ -38,6 +38,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.jboss.errai.marshalling.server.ServerMarshalling;
 import org.kie.dmn.api.marshalling.DMNMarshaller;
 import org.kie.dmn.model.api.Import;
 import org.kie.dmn.model.api.dmndi.Bounds;
@@ -92,7 +93,6 @@ import org.kie.workbench.common.dmn.backend.definition.v1_1.dd.ComponentWidths;
 import org.kie.workbench.common.dmn.backend.definition.v1_1.dd.ComponentsWidthsExtension;
 import org.kie.workbench.common.dmn.backend.definition.v1_1.dd.FontSetPropertyConverter;
 import org.kie.workbench.common.dmn.backend.definition.v1_1.dd.PointUtils;
-import org.kie.workbench.common.forms.adf.definitions.DynamicReadOnly;
 import org.kie.workbench.common.stunner.core.api.FactoryManager;
 import org.kie.workbench.common.stunner.core.backend.service.XMLEncoderDiagramMetadataMarshaller;
 import org.kie.workbench.common.stunner.core.definition.adapter.binding.BindableAdapterUtils;
@@ -173,14 +173,27 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         this.decisionServiceConverter = new DecisionServiceConverter(factoryManager);
     }
 
-    private static Optional<org.kie.dmn.model.api.dmndi.DMNDiagram> findDMNDiagram(org.kie.dmn.model.api.Definitions dmnXml) {
+    @Deprecated
+    public Graph unmarshallFromStunnerJSON(final Metadata metadata,
+                                           final InputStream input) throws IOException {
+        Graph result = (Graph) ServerMarshalling.fromJSON(input);
+        return result;
+    }
+
+    @Deprecated
+    public String marshallFromStunnerToJSON(final Diagram<Graph, Metadata> diagram) throws IOException {
+        String result = ServerMarshalling.toJSON(diagram.getGraph());
+        return result;
+    }
+
+    private static Optional<org.kie.dmn.model.api.dmndi.DMNDiagram> findDMNDiagram(final org.kie.dmn.model.api.Definitions dmnXml) {
         if (!(dmnXml instanceof org.kie.dmn.model.v1_2.TDefinitions)) {
             return Optional.empty();
         }
         if (dmnXml.getDMNDI() == null) {
             return Optional.empty();
         }
-        List<org.kie.dmn.model.api.dmndi.DMNDiagram> elems = dmnXml.getDMNDI().getDMNDiagram();
+        final List<org.kie.dmn.model.api.dmndi.DMNDiagram> elems = dmnXml.getDMNDI().getDMNDiagram();
         if (elems.size() != 1) {
             return Optional.empty();
         } else {
@@ -191,7 +204,7 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
     @Override
     @SuppressWarnings("unchecked")
     public Graph unmarshall(final Metadata metadata,
-                            final InputStream input) {
+                            final InputStream input) throws IOException {
         final Map<String, HasComponentWidths> hasComponentWidthsMap = new HashMap<>();
         final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer = (uuid, hcw) -> {
             if (Objects.nonNull(uuid)) {
@@ -244,112 +257,76 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
 
             // DMN spec table 2: Requirements connection rules
             if (elem instanceof org.kie.dmn.model.api.Decision) {
-                org.kie.dmn.model.api.Decision decision = (org.kie.dmn.model.api.Decision) elem;
+                final org.kie.dmn.model.api.Decision decision = (org.kie.dmn.model.api.Decision) elem;
                 for (org.kie.dmn.model.api.InformationRequirement ir : decision.getInformationRequirement()) {
-                    if (ir.getRequiredInput() != null) {
-                        final String reqInputID = getId(ir.getRequiredInput());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ir),
-                                                                      INFO_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ir.getId(), dmnXml);
-                    }
-                    if (ir.getRequiredDecision() != null) {
-                        final String reqInputID = getId(ir.getRequiredDecision());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ir),
-                                                                      INFO_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ir.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(INFO_REQ_ID,
+                                       ir,
+                                       ir.getRequiredInput(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
+                    connectEdgeToNodes(INFO_REQ_ID,
+                                       ir,
+                                       ir.getRequiredDecision(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
                 for (org.kie.dmn.model.api.KnowledgeRequirement kr : decision.getKnowledgeRequirement()) {
-                    if (kr.getRequiredKnowledge() != null) {
-                        final String reqInputID = getId(kr.getRequiredKnowledge());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(kr),
-                                                                      KNOWLEDGE_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, kr.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(KNOWLEDGE_REQ_ID,
+                                       kr,
+                                       kr.getRequiredKnowledge(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
                 for (org.kie.dmn.model.api.AuthorityRequirement ar : decision.getAuthorityRequirement()) {
-                    if (ar.getRequiredAuthority() != null) {
-                        final String reqInputID = getId(ar.getRequiredAuthority());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ar),
-                                                                      AUTH_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ar.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(AUTH_REQ_ID,
+                                       ar,
+                                       ar.getRequiredAuthority(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
             } else if (elem instanceof org.kie.dmn.model.api.BusinessKnowledgeModel) {
-                org.kie.dmn.model.api.BusinessKnowledgeModel bkm = (org.kie.dmn.model.api.BusinessKnowledgeModel) elem;
+                final org.kie.dmn.model.api.BusinessKnowledgeModel bkm = (org.kie.dmn.model.api.BusinessKnowledgeModel) elem;
                 for (org.kie.dmn.model.api.KnowledgeRequirement kr : bkm.getKnowledgeRequirement()) {
-                    if (kr.getRequiredKnowledge() != null) {
-                        final String reqInputID = getId(kr.getRequiredKnowledge());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(kr),
-                                                                      KNOWLEDGE_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, kr.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(KNOWLEDGE_REQ_ID,
+                                       kr,
+                                       kr.getRequiredKnowledge(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
                 for (org.kie.dmn.model.api.AuthorityRequirement ar : bkm.getAuthorityRequirement()) {
-                    if (ar.getRequiredAuthority() != null) {
-                        final String reqInputID = getId(ar.getRequiredAuthority());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ar),
-                                                                      AUTH_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ar.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(AUTH_REQ_ID,
+                                       ar,
+                                       ar.getRequiredAuthority(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
             } else if (elem instanceof org.kie.dmn.model.api.KnowledgeSource) {
-                org.kie.dmn.model.api.KnowledgeSource ks = (org.kie.dmn.model.api.KnowledgeSource) elem;
+                final org.kie.dmn.model.api.KnowledgeSource ks = (org.kie.dmn.model.api.KnowledgeSource) elem;
                 for (org.kie.dmn.model.api.AuthorityRequirement ar : ks.getAuthorityRequirement()) {
-                    if (ar.getRequiredInput() != null) {
-                        final String reqInputID = getId(ar.getRequiredInput());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ar),
-                                                                      AUTH_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ar.getId(), dmnXml);
-                    }
-                    if (ar.getRequiredDecision() != null) {
-                        final String reqInputID = getId(ar.getRequiredDecision());
-                        final Node requiredNode = getRequiredNode(elems, reqInputID);
-                        final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ar),
-                                                                      AUTH_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ar.getId(), dmnXml);
-                    }
-                    if (ar.getRequiredAuthority() != null) {
-                        String reqInputID = getId(ar.getRequiredAuthority());
-                        Node requiredNode = getRequiredNode(elems, reqInputID);
-                        Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(ar),
-                                                                AUTH_REQ_ID).asEdge();
-                        connectEdge(myEdge,
-                                    requiredNode,
-                                    currentNode);
-                        setConnectionMagnets(myEdge, ar.getId(), dmnXml);
-                    }
+                    connectEdgeToNodes(AUTH_REQ_ID,
+                                       ar,
+                                       ar.getRequiredInput(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
+                    connectEdgeToNodes(AUTH_REQ_ID,
+                                       ar,
+                                       ar.getRequiredDecision(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
+                    connectEdgeToNodes(AUTH_REQ_ID,
+                                       ar,
+                                       ar.getRequiredAuthority(),
+                                       elems,
+                                       dmnXml,
+                                       currentNode);
                 }
             } else if (elem instanceof org.kie.dmn.model.api.DecisionService) {
                 final org.kie.dmn.model.api.DecisionService ds = (org.kie.dmn.model.api.DecisionService) elem;
@@ -357,12 +334,16 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
                 for (org.kie.dmn.model.api.DMNElementReference er : ds.getEncapsulatedDecision()) {
                     final String reqInputID = getId(er);
                     final Node requiredNode = getRequiredNode(elems, reqInputID);
-                    connectDSChildEdge(currentNode, requiredNode);
+                    if (Objects.nonNull(requiredNode)) {
+                        connectDSChildEdge(currentNode, requiredNode);
+                    }
                 }
                 for (org.kie.dmn.model.api.DMNElementReference er : ds.getOutputDecision()) {
                     final String reqInputID = getId(er);
                     final Node requiredNode = getRequiredNode(elems, reqInputID);
-                    connectDSChildEdge(currentNode, requiredNode);
+                    if (Objects.nonNull(requiredNode)) {
+                        connectDSChildEdge(currentNode, requiredNode);
+                    }
                 }
             }
         }
@@ -438,7 +419,6 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         extension.ifPresent(componentsWidthsExtension -> {
             //This condition is required because a node with ComponentsWidthsExtension
             //can be imported from another diagram but the extension is not imported or present in this diagram.
-            //TODO: This will be fixed in this JIRA: https://issues.jboss.org/browse/DROOLS-3934
             if (componentsWidthsExtension.getComponentsWidths() != null) {
                 hasComponentWidthsMap.entrySet().forEach(es -> {
                     componentsWidthsExtension
@@ -500,7 +480,8 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         return indexByUri;
     }
 
-    void changeAlias(final String alias, final org.kie.dmn.model.api.DRGElement drgElement) {
+    void changeAlias(final String alias,
+                     final org.kie.dmn.model.api.DRGElement drgElement) {
         if (drgElement.getId().contains(":")) {
             final String id = drgElement.getId().split(":")[1];
             drgElement.setId(alias + ":" + id);
@@ -537,10 +518,8 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         return dmnShapes
                 .stream()
                 .map(shape -> {
-
                     final String dmnElementRef = getDmnElementRef(shape);
                     final Optional<org.kie.dmn.model.api.DRGElement> ref = getReference(importedDRGElements, dmnElementRef);
-
                     return ref.orElse(null);
                 })
                 .filter(Objects::nonNull)
@@ -575,7 +554,8 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
      * Relationships are not created with the factory.
      * This method specializes to connect with an Edge containing a Child relationship the target Node.
      */
-    private static void connectDSChildEdge(Node dsNode, Node requiredNode) {
+    private static void connectDSChildEdge(final Node dsNode,
+                                           final Node requiredNode) {
         final String uuid = dsNode.getUUID() + "er" + requiredNode.getUUID();
         final Edge<Child, Node> myEdge = new EdgeImpl<>(uuid);
         myEdge.setContent(new Child());
@@ -584,7 +564,7 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
                     requiredNode);
     }
 
-    private static String idOfDMNorWBUUID(org.kie.dmn.model.api.DMNElement dmn) {
+    private static String idOfDMNorWBUUID(final org.kie.dmn.model.api.DMNElement dmn) {
         return dmn.getId() != null ? dmn.getId() : UUID.uuid();
     }
 
@@ -598,15 +578,32 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         return href.contains("#") ? href.substring(href.indexOf('#') + 1) : href;
     }
 
+    private void connectEdgeToNodes(final String connectorTypeId,
+                                    final org.kie.dmn.model.api.DMNElement dmnElement,
+                                    final org.kie.dmn.model.api.DMNElementReference dmnElementReference,
+                                    final Map<String, Entry<org.kie.dmn.model.api.DRGElement, Node>> elems,
+                                    final org.kie.dmn.model.api.Definitions definitions,
+                                    final Node currentNode) {
+        if (Objects.nonNull(dmnElementReference)) {
+            final String reqInputID = getId(dmnElementReference);
+            final Node requiredNode = getRequiredNode(elems, reqInputID);
+            final Edge myEdge = factoryManager.newElement(idOfDMNorWBUUID(dmnElement),
+                                                          connectorTypeId).asEdge();
+            connectEdge(myEdge,
+                        requiredNode,
+                        currentNode);
+            setConnectionMagnets(myEdge, dmnElement.getId(), definitions);
+        }
+    }
+
     private Node dmnToStunner(final org.kie.dmn.model.api.DRGElement dmn,
                               final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer,
                               final List<org.kie.dmn.model.api.DRGElement> importedDrgElements) {
-
         final Node node = createNode(dmn, hasComponentWidthsConsumer);
         return setAllowOnlyVisualChange(importedDrgElements, node);
     }
 
-    private Node createNode(org.kie.dmn.model.api.DRGElement dmn,
+    private Node createNode(final org.kie.dmn.model.api.DRGElement dmn,
                             final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer) {
         if (dmn instanceof org.kie.dmn.model.api.InputData) {
             return inputDataConverter.nodeFromDMN((org.kie.dmn.model.api.InputData) dmn,
@@ -711,14 +708,14 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         }
         if (dmnEdge.isPresent()) {
             DMNEdge e = dmnEdge.get();
-            Point source = e.getWaypoint().get(0);
+            final Point source = e.getWaypoint().get(0);
             final Node<View<?>, Edge> sourceNode = edge.getSourceNode();
             if (null != sourceNode) {
                 setConnectionMagnet(sourceNode,
                                     source,
                                     connectionContent::setSourceConnection);
             }
-            Point target = e.getWaypoint().get(e.getWaypoint().size() - 1);
+            final Point target = e.getWaypoint().get(e.getWaypoint().size() - 1);
             final Node<View<?>, Edge> targetNode = edge.getTargetNode();
             if (null != targetNode) {
                 setConnectionMagnet(targetNode,
@@ -844,16 +841,9 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
             if (node.getContent() instanceof View<?>) {
                 final View<?> view = (View<?>) node.getContent();
                 if (view.getDefinition() instanceof DRGElement) {
-                    final DRGElement n = (org.kie.workbench.common.dmn.api.definition.model.DRGElement) view.getDefinition();
-                    if (view.getDefinition() instanceof DynamicReadOnly) {
-                        final DynamicReadOnly def = (DynamicReadOnly) view.getDefinition();
-                        if (!def.isAllowOnlyVisualChange()) {
-                            nodes.put(n.getId().getValue(),
-                                      stunnerToDMN(node,
-                                                   componentWidthsConsumer));
-                        }
-                    } else {
-                        nodes.put(n.getId().getValue(),
+                    final DRGElement drgElement = (org.kie.workbench.common.dmn.api.definition.model.DRGElement) view.getDefinition();
+                    if (!drgElement.isAllowOnlyVisualChange()) {
+                        nodes.put(drgElement.getId().getValue(),
                                   stunnerToDMN(node,
                                                componentWidthsConsumer));
                     }
@@ -869,43 +859,41 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
                     definitions.getArtifact().addAll(associations);
                 }
                 // DMNDI Edge management.
-                List<Edge<?, ?>> inEdges = (List<Edge<?, ?>>) node.getInEdges();
+                final List<Edge<?, ?>> inEdges = (List<Edge<?, ?>>) node.getInEdges();
                 for (Edge<?, ?> e : inEdges) {
                     if (e.getContent() instanceof ViewConnector) {
                         final ViewConnector connectionContent = (ViewConnector) e.getContent();
                         if (connectionContent.getSourceConnection().isPresent() && connectionContent.getTargetConnection().isPresent()) {
                             Point2D sourcePoint = ((Connection) connectionContent.getSourceConnection().get()).getLocation();
                             Point2D targetPoint = ((Connection) connectionContent.getTargetConnection().get()).getLocation();
-                            if (sourcePoint == null) { // If the "connection source/target location is null" assume it's the centre of the shape.
-                                final Node<?, ?> sourceNode = e.getSourceNode();
-                                final View<?> sourceView = (View<?>) sourceNode.getContent();
-                                double xSource = xOfBound(upperLeftBound(sourceView));
-                                double ySource = yOfBound(upperLeftBound(sourceView));
+                            final Node<?, ?> sourceNode = e.getSourceNode();
+                            final View<?> sourceView = (View<?>) sourceNode.getContent();
+                            double xSource = xOfBound(upperLeftBound(sourceView));
+                            double ySource = yOfBound(upperLeftBound(sourceView));
+                            double xTarget = xOfBound(upperLeftBound(view));
+                            double yTarget = yOfBound(upperLeftBound(view));
+                            if (sourcePoint == null) {
+                                // If the "connection source/target location is null" assume it's the centre of the shape.
                                 if (sourceView.getDefinition() instanceof DMNViewDefinition) {
-                                    final DMNViewDefinition dmnViewDefinition = (DMNViewDefinition) sourceView.getDefinition();
+                                    DMNViewDefinition dmnViewDefinition = (DMNViewDefinition) sourceView.getDefinition();
                                     xSource += dmnViewDefinition.getDimensionsSet().getWidth().getValue() / 2;
                                     ySource += dmnViewDefinition.getDimensionsSet().getHeight().getValue() / 2;
                                 }
                                 sourcePoint = Point2D.create(xSource, ySource);
-                            } else { // If it is non-null it is relative to the source/target shape location.
-                                final Node<?, ?> sourceNode = e.getSourceNode();
-                                final View<?> sourceView = (View<?>) sourceNode.getContent();
-                                double xSource = xOfBound(upperLeftBound(sourceView));
-                                double ySource = yOfBound(upperLeftBound(sourceView));
+                            } else {
+                                // If it is non-null it is relative to the source/target shape location.
                                 sourcePoint = Point2D.create(xSource + sourcePoint.getX(), ySource + sourcePoint.getY());
                             }
-                            if (targetPoint == null) { // If the "connection source/target location is null" assume it's the centre of the shape.
-                                double xTarget = xOfBound(upperLeftBound(view));
-                                double yTarget = yOfBound(upperLeftBound(view));
+                            if (targetPoint == null) {
+                                // If the "connection source/target location is null" assume it's the centre of the shape.
                                 if (view.getDefinition() instanceof DMNViewDefinition) {
-                                    final DMNViewDefinition dmnViewDefinition = (DMNViewDefinition) view.getDefinition();
+                                    DMNViewDefinition dmnViewDefinition = (DMNViewDefinition) view.getDefinition();
                                     xTarget += dmnViewDefinition.getDimensionsSet().getWidth().getValue() / 2;
                                     yTarget += dmnViewDefinition.getDimensionsSet().getHeight().getValue() / 2;
                                 }
                                 targetPoint = Point2D.create(xTarget, yTarget);
-                            } else { // If it is non-null it is relative to the source/target shape location.
-                                final double xTarget = xOfBound(upperLeftBound(view));
-                                final double yTarget = yOfBound(upperLeftBound(view));
+                            } else {
+                                // If it is non-null it is relative to the source/target shape location.
                                 targetPoint = Point2D.create(xTarget + targetPoint.getX(), yTarget + targetPoint.getY());
                             }
 
@@ -1101,7 +1089,8 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         }
     }
 
-    private static void mergeFontSet(FontSet fontSet, FontSet additional) {
+    private static void mergeFontSet(final FontSet fontSet,
+                                     final FontSet additional) {
         if (additional.getFontFamily() != null) {
             fontSet.setFontFamily(additional.getFontFamily());
         }
@@ -1169,7 +1158,8 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         return result;
     }
 
-    private static void applyFontStyle(FontSet fontSet, DMNShape result) {
+    private static void applyFontStyle(final FontSet fontSet,
+                                       final DMNShape result) {
         if (!(result.getStyle() instanceof DMNStyle)) {
             return;
         }
