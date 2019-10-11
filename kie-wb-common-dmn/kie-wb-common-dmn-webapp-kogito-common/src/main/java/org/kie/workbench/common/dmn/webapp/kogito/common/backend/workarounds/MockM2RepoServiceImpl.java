@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kie.workbench.common.dmn.webapp.kogito.common.backend.workarounds;
-
-import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.guvnor.common.services.project.model.GAV;
+import org.guvnor.m2repo.model.JarListPageRequest;
+import org.guvnor.m2repo.model.JarListPageRow;
+import org.guvnor.m2repo.service.M2RepoService;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.kie.workbench.common.services.refactoring.service.AssetsUsageService;
-import org.kie.workbench.common.services.refactoring.service.PartType;
-import org.kie.workbench.common.services.refactoring.service.ResourceType;
-import org.uberfire.backend.vfs.Path;
+import org.uberfire.paging.PageResponse;
 
 @Service
 @ApplicationScoped
-public class MockAssetsUsageServiceImpl implements AssetsUsageService {
+public class MockM2RepoServiceImpl implements M2RepoService {
 
     @Override
-    public List<Path> getAssetUsages(final String resourceFQN,
-                                     final ResourceType resourceType,
-                                     final Path assetPath) {
+    public String getPomText(final String path) {
         throw new UnsupportedOperationException("Not available in Kogito");
     }
 
     @Override
-    public List<Path> getAssetPartUsages(final String resourceFQN,
-                                         final String resourcePart,
-                                         final PartType partType,
-                                         final Path assetPath) {
+    public GAV loadGAVFromJar(final String path) {
+        throw new UnsupportedOperationException("Not available in Kogito");
+    }
+
+    @Override
+    public PageResponse<JarListPageRow> listArtifacts(final JarListPageRequest pageRequest) {
+        throw new UnsupportedOperationException("Not available in Kogito");
+    }
+
+    @Override
+    public String getRepositoryURL() {
         throw new UnsupportedOperationException("Not available in Kogito");
     }
 }
