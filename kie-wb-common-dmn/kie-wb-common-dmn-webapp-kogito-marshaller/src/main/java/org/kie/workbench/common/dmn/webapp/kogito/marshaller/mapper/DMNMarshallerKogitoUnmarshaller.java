@@ -999,7 +999,27 @@ public class DMNMarshallerKogitoUnmarshaller {
             lrBound.setY(yOfShape(drgShape) + heightOfShape(drgShape));
         }
 
-        final JSIStyle drgStyle = Js.uncheckedCast(JsUtils.getUnwrappedElement(drgShape.getStyle()));
+        internalAugmentStyles(drgShape,
+                              bgset,
+                              fontSetSetter);
+
+        if (Objects.nonNull(drgShape.getDMNDecisionServiceDividerLine())) {
+            final JSIDMNDecisionServiceDividerLine divider = Js.uncheckedCast(drgShape.getDMNDecisionServiceDividerLine());
+            final List<JSIPoint> dividerPoints = divider.getWaypoint();
+            final JSIPoint dividerY = Js.uncheckedCast(dividerPoints.get(0));
+            decisionServiceDividerLineYSetter.accept(dividerY.getY());
+        }
+    }
+
+    private void internalAugmentStyles(final JSIDMNShape drgShape,
+                                       final BackgroundSet bgset,
+                                       final Consumer<FontSet> fontSetSetter) {
+        final JSIStyle jsiStyle = drgShape.getStyle();
+        if (Objects.isNull(jsiStyle)) {
+            return;
+        }
+
+        final JSIStyle drgStyle = Js.uncheckedCast(JsUtils.getUnwrappedElement(jsiStyle));
         final JSIDMNStyle dmnStyleOfDrgShape = JSIDMNStyle.instanceOf(drgStyle) ? Js.uncheckedCast(drgStyle) : null;
         if (Objects.nonNull(dmnStyleOfDrgShape)) {
             if (Objects.nonNull(dmnStyleOfDrgShape.getFillColor())) {
@@ -1014,6 +1034,7 @@ public class DMNMarshallerKogitoUnmarshaller {
         if (Objects.nonNull(dmnStyleOfDrgShape)) {
             mergeFontSet(fontSet, FontSetPropertyConverter.wbFromDMN(dmnStyleOfDrgShape));
         }
+
         if (Objects.nonNull(drgShape.getDMNLabel())) {
             final JSIDMNShape jsiLabel = Js.uncheckedCast(drgShape.getDMNLabel());
             final JSIStyle jsiLabelStyle = jsiLabel.getStyle();
@@ -1026,13 +1047,6 @@ public class DMNMarshallerKogitoUnmarshaller {
             }
         }
         fontSetSetter.accept(fontSet);
-
-        if (Objects.nonNull(drgShape.getDMNDecisionServiceDividerLine())) {
-            final JSIDMNDecisionServiceDividerLine divider = Js.uncheckedCast(drgShape.getDMNDecisionServiceDividerLine());
-            final List<JSIPoint> dividerPoints = divider.getWaypoint();
-            final JSIPoint dividerY = Js.uncheckedCast(dividerPoints.get(0));
-            decisionServiceDividerLineYSetter.accept(dividerY.getY());
-        }
     }
 
     private void mergeFontSet(final FontSet fontSet,
