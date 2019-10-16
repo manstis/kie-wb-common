@@ -34,7 +34,7 @@ public class MockAssetsUsageServiceImpl implements AssetsUsageService {
     public List<Path> getAssetUsages(final String resourceFQN,
                                      final ResourceType resourceType,
                                      final Path assetPath) {
-        throw new UnsupportedOperationException("Not available in Kogito");
+        throw new UnsupportedOperationException("Not available in kogito");
     }
 
     @Override
@@ -42,6 +42,6 @@ public class MockAssetsUsageServiceImpl implements AssetsUsageService {
                                          final String resourcePart,
                                          final PartType partType,
                                          final Path assetPath) {
-        throw new UnsupportedOperationException("Not available in Kogito");
+        throw new UnsupportedOperationException("Not available in kogito");
     }
 }
