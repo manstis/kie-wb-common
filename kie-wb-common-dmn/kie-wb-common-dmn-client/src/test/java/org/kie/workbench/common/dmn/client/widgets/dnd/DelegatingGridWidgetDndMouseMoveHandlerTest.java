@@ -49,6 +49,9 @@ public class DelegatingGridWidgetDndMouseMoveHandlerTest {
     private BaseGridRendererHelper rendererHelper;
 
     @Mock
+    private BaseGridRendererHelper.RenderingInformation renderingInformation;
+
+    @Mock
     private Viewport viewport;
 
     @Mock
@@ -70,7 +73,7 @@ public class DelegatingGridWidgetDndMouseMoveHandlerTest {
         final GridWidget view = mock(GridWidget.class);
         doReturn(rendererHelper).when(view).getRendererHelper();
 
-        handler.findMovableRows(view, 0, 0);
+        handler.findMovableRows(view, renderingInformation, 0, 0);
 
         verify(state, never()).reset();
     }
@@ -81,7 +84,7 @@ public class DelegatingGridWidgetDndMouseMoveHandlerTest {
         doReturn(rendererHelper).when(view).getRendererHelper();
         doReturn(true).when(view).isRowDragPermitted(eq(state));
 
-        handler.findMovableRows(view, 0, 0);
+        handler.findMovableRows(view, renderingInformation, 0, 0);
 
         verify(state, never()).reset();
     }
@@ -96,7 +99,7 @@ public class DelegatingGridWidgetDndMouseMoveHandlerTest {
         doReturn(element).when(viewport).getElement();
         doReturn(style).when(element).getStyle();
 
-        handler.findMovableRows(view, 0, 0);
+        handler.findMovableRows(view, renderingInformation, 0, 0);
 
         verify(state).reset();
         verify(style).setCursor(eq(Style.Cursor.DEFAULT));
