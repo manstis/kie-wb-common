@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.dmn.client.widgets.dnd;
 
+import com.ait.lienzo.client.core.event.NodeMouseMoveEvent;
 import org.kie.workbench.common.dmn.client.widgets.grid.model.HasRowDragRestrictions;
 import org.uberfire.ext.wires.core.grids.client.widget.dnd.GridWidgetDnDHandlersState;
 import org.uberfire.ext.wires.core.grids.client.widget.dnd.GridWidgetDnDMouseMoveHandler;
@@ -29,6 +30,10 @@ public class DelegatingGridWidgetDndMouseMoveHandler extends GridWidgetDnDMouseM
                                                    final GridWidgetDnDHandlersState state) {
         super(layer,
               state);
+    }
+
+    @Override
+    public void onNodeMouseMove(final NodeMouseMoveEvent event) {
     }
 
     @Override

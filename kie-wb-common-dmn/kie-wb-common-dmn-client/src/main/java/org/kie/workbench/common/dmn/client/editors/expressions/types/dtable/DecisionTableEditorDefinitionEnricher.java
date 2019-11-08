@@ -114,28 +114,31 @@ public class DecisionTableEditorDefinitionEnricher implements ExpressionEditorMo
             outputClause.setTypeRef(!Objects.isNull(hasTypeRef) ? hasTypeRef.getTypeRef() : BuiltInType.UNDEFINED.asQName());
             dtable.getOutput().add(outputClause);
 
-            final DecisionRule decisionRule = new DecisionRule();
-            final UnaryTests decisionRuleUnaryTest = new UnaryTests();
-            decisionRuleUnaryTest.getText().setValue(DecisionTableDefaultValueUtilities.INPUT_CLAUSE_UNARY_TEST_TEXT);
-            decisionRule.getInputEntry().add(decisionRuleUnaryTest);
+            for (int rows = 0; rows < 500; rows++) {
+                final DecisionRule decisionRule = new DecisionRule();
+                final UnaryTests decisionRuleUnaryTest = new UnaryTests();
+                decisionRuleUnaryTest.getText().setValue(DecisionTableDefaultValueUtilities.INPUT_CLAUSE_UNARY_TEST_TEXT);
+                decisionRule.getInputEntry().add(decisionRuleUnaryTest);
 
-            final LiteralExpression decisionRuleLiteralExpression = new LiteralExpression();
-            decisionRuleLiteralExpression.getText().setValue(DecisionTableDefaultValueUtilities.OUTPUT_CLAUSE_EXPRESSION_TEXT);
-            decisionRule.getOutputEntry().add(decisionRuleLiteralExpression);
+                final LiteralExpression decisionRuleLiteralExpression = new LiteralExpression();
+                decisionRuleLiteralExpression.getText().setValue(DecisionTableDefaultValueUtilities.OUTPUT_CLAUSE_EXPRESSION_TEXT);
+                decisionRule.getOutputEntry().add(decisionRuleLiteralExpression);
 
-            final Description description = new Description();
-            description.setValue(DecisionTableDefaultValueUtilities.RULE_DESCRIPTION);
-            decisionRule.setDescription(description);
+                final Description description = new Description();
+                description.setValue(DecisionTableDefaultValueUtilities.RULE_DESCRIPTION);
+                decisionRule.setDescription(description);
 
-            dtable.getRule().add(decisionRule);
+                dtable.getRule().add(decisionRule);
+
+                decisionRule.setParent(dtable);
+                decisionRuleUnaryTest.setParent(decisionRule);
+                decisionRuleLiteralExpression.setParent(decisionRule);
+            }
 
             //Setup parent relationships
             inputClause.setParent(dtable);
             outputClause.setParent(dtable);
-            decisionRule.setParent(dtable);
             literalExpression.setParent(inputClause);
-            decisionRuleUnaryTest.setParent(decisionRule);
-            decisionRuleLiteralExpression.setParent(decisionRule);
 
             if (nodeUUID.isPresent()) {
                 enrichInputClauses(nodeUUID.get(), dtable);
