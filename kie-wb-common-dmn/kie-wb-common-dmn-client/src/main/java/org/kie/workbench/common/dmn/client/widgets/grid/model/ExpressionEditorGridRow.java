@@ -16,10 +16,11 @@
 
 package org.kie.workbench.common.dmn.client.widgets.grid.model;
 
-import com.google.gwt.core.client.GWT;
 import org.kie.workbench.common.dmn.client.editors.expressions.types.context.ExpressionCellValue;
 import org.uberfire.ext.wires.core.grids.client.model.GridCell;
 import org.uberfire.ext.wires.core.grids.client.model.impl.BaseGridRow;
+
+import static org.uberfire.ext.wires.core.grids.client.util.Logging.log;
 
 public class ExpressionEditorGridRow extends BaseGridRow {
 
@@ -39,7 +40,7 @@ public class ExpressionEditorGridRow extends BaseGridRow {
     @Override
     public double getHeight() {
         long currentTimeMillis = System.currentTimeMillis();
-        GWT.log(" - Pre- ExpressionEditorGridRow.getHeight()");
+        log(" - Pre- ExpressionEditorGridRow.getHeight()");
 
         final double height = this.getCells()
                 .values()
@@ -54,7 +55,7 @@ public class ExpressionEditorGridRow extends BaseGridRow {
                 .reduce(Double::max)
                 .orElse(defaultHeight);
 
-        GWT.log(" - Post- ExpressionEditorGridRow.getHeight() - " + (System.currentTimeMillis() - currentTimeMillis));
+        log(" - Post- ExpressionEditorGridRow.getHeight() - " + (System.currentTimeMillis() - currentTimeMillis));
         return height;
     }
 }
