@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dmn11:definitions xmlns="http://www.trisotech.com/definitions/_b2ef74f8-3453-44f7-887a-86ea1dd43d80" xmlns:feel="http://www.omg.org/spec/FEEL/20140401" xmlns:tc="http://www.omg.org/spec/DMN/20160719/testcase" xmlns:triso="http://www.trisotech.com/2015/triso/modeling" xmlns:trisofeed="http://trisotech.com/feed" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="DMN Modeler" exporterVersion="6.1.2" id="_b2ef74f8-3453-44f7-887a-86ea1dd43d80" name="Vacation Day Count - Solution 1" namespace="http://www.trisotech.com/definitions/_b2ef74f8-3453-44f7-887a-86ea1dd43d80" triso:logoChoice="Default" xmlns:dmn11="http://www.omg.org/spec/DMN/20151101/dmn.xsd">
+  <dmn11:description>&lt;p&gt;&lt;span style="color: #000000; text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; word-spacing: 0px; float: none; display: inline !important; white-space: normal; orphans: 2; widows: 2; background-color: #ffffff; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"&gt;The Decision Management Community (DMCommunity.org) provides resources for DM practitioners, listing tools, news, providing examples and also giving monthly challenge. As a vendor that always seek improvement, Trisotech took January challenge using Trisotech DMN Modeler (Trisotech.com)&lt;/span&gt;&lt;/p&gt;</dmn11:description>
+  <dmn11:extensionElements>
+    <triso:ProjectCharter>
+      <triso:projectScope>&lt;p style="color: #000000; text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"&gt;The January challenge is to create the best possible decision tables to represent the following statements, provided by Prof. Jan Vanthienen who is one of the best known experts in decision tables and a member of the DMN Task Force.&lt;/p&gt;
+&lt;p style="color: #000000; text-transform: none; text-indent: 0px; letter-spacing: normal; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-style: normal; font-weight: normal; word-spacing: 0px; white-space: normal; orphans: 2; widows: 2; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px;"&gt;&lt;img src="https://dmcommunity.files.wordpress.com/2016/01/vacationdaysproblem.jpg?w=640" alt="VacationDaysProblem" /&gt;&lt;/p&gt;</triso:projectScope>
+      <triso:projectGoals/>
+      <triso:projectChallenges/>
+      <triso:projectStakeholders/>
+    </triso:ProjectCharter>
+  </dmn11:extensionElements>
+  <dmn11:decision id="_852f6be7-e235-4ff4-9dee-505f8cf2ae22" name="Five extra days Rule">
+    <dmn11:description>&lt;p&gt;Only employees younger than 18 or at least 60 years, or employees with at least 30 years of service will receive 5 extra days.&lt;/p&gt;</dmn11:description>
+    <dmn11:variable id="_0197fb6f-83d5-4f42-9220-5c14754ef845" name="Five extra days Rule" typeRef="feel:number"/>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_14640e17-48e3-4902-8262-a63f7c3805e1"/>
+    </dmn11:informationRequirement>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_cf96cd90-c5c9-43f0-a286-18db091a4443"/>
+    </dmn11:informationRequirement>
+    <dmn11:decisionTable hitPolicy="ANY" id="_6ad111b7-61da-4731-8c9f-11c90b61b452" outputLabel="Five extra days Rule" typeRef="feel:number">
+      <dmn11:input id="_c37e8c22-0276-4fe6-944f-d3b71dd01738">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Age</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=14</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:input id="_9a0bf4c0-3bc9-4ed5-ab13-d6ad76284860">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Years of Service</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=0</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:output id="_35215433-1766-46f6-997c-eec6845fbadc"/>
+      <dmn11:rule id="_1271a9ab-6946-412b-9ea8-d306e63221df">
+        <dmn11:inputEntry id="_248e9fbb-6eb1-4d6c-b98b-6e96898b9da8">
+          <dmn11:text>&lt;18</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_14645132-eee2-4f90-9e6d-b9f75c1b7332">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_b4fadc4a-1a5c-4e3f-8744-856cc5eb327c">
+          <dmn11:text>5</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_a8fb8a9d-d713-4772-ad4c-2706c14dfe6a">
+        <dmn11:inputEntry id="_aaee31b0-218a-4eb3-a735-69cbc2795ffe">
+          <dmn11:text>&gt;=60</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_1d3e7bbc-e78b-431b-a7b6-8dbde9af9cef">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_7cb90ee7-6635-4425-bfdf-dc8f92727a70">
+          <dmn11:text>5</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_e252f042-be55-47ec-85a4-712ba3a708f9">
+        <dmn11:inputEntry id="_68c40434-d453-4fc2-a9c5-7cec37810333">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_c592e255-c9bf-4318-a0d3-90d40b0355de">
+          <dmn11:text>&gt;=30</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_d5d78840-cd42-4f95-a7ff-11e32ff03ffb">
+          <dmn11:text>5</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_26eb88ec-c6d5-4a59-ad48-e61cfd07f2c6">
+        <dmn11:inputEntry id="_eb8145d0-21b4-4127-99e2-47716e90f63d">
+          <dmn11:text>[18..60)</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_dc9b5c25-dcf2-4317-8c5e-6f3e80bb2269">
+          <dmn11:text>&lt;30</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_f6f71645-bb4f-46b0-b967-af7f44a4002e">
+          <dmn11:text>0</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+    </dmn11:decisionTable>
+  </dmn11:decision>
+  <dmn11:decision id="_62995f21-c34f-4a9e-a25a-46fdcaf34a7e" name="Three extra days Rule">
+    <dmn11:description>&lt;p&gt;Employees with at least 30 years of service and also employees of age 60 or more, receive 3 extra days, on top of possible additional days already given.&lt;/p&gt;</dmn11:description>
+    <dmn11:variable id="_c5564316-88c0-40dc-9624-e3e6ba742fc5" name="Three extra days Rule" typeRef="feel:number"/>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_cf96cd90-c5c9-43f0-a286-18db091a4443"/>
+    </dmn11:informationRequirement>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_14640e17-48e3-4902-8262-a63f7c3805e1"/>
+    </dmn11:informationRequirement>
+    <dmn11:decisionTable hitPolicy="FIRST" id="_288b726d-6888-4c18-a9ad-faa9e398ef81" outputLabel="Three extra days Rule" typeRef="feel:number">
+      <dmn11:input id="_b71a33d0-6f60-47d2-89d3-963eac9a0c46">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Age</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=14</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:input id="_3cd2a386-29b1-43a8-8736-bc39ddf6b958">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Years of Service</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=0</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:output id="_d91606b0-3b1b-46f5-9c6d-e3b480ab88d5"/>
+      <dmn11:rule id="_55633c9a-91b0-48bd-b5c8-468beed9cb28">
+        <dmn11:inputEntry id="_e60bd84a-8f63-4398-9f2e-44871474221b">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_70072350-b58a-4f31-b225-12ccc52ce3da">
+          <dmn11:text>&gt;=30</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_69d7762e-c575-4eff-bfa9-d7b679de86f6">
+          <dmn11:text>3</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_9e539f06-1004-416d-b98d-a977f48fae3d">
+        <dmn11:inputEntry id="_ba2fc825-acb6-4735-aa96-a0fb814b3584">
+          <dmn11:text>&gt;=60</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_33441222-f4de-4691-bec0-b0dd69584601">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_95a67dd2-0ec9-4380-bdd4-b43b4fd8e817">
+          <dmn11:text>3</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_7d3c54c7-2093-420d-89c3-20100e74fd55">
+        <dmn11:inputEntry id="_9559266d-43e0-45cc-9fce-3b1a49223adf">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_69096799-2007-4e0a-a702-ab8cd9dad68e">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_f8dd9b60-1151-4406-bf31-f17c67a20c7a">
+          <dmn11:text>0</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+    </dmn11:decisionTable>
+  </dmn11:decision>
+  <dmn11:decision id="_e1e247a4-6e54-4e72-93b6-78ae8606b44d" name="Two extra days Rule">
+    <dmn11:description>&lt;p&gt;If an employee has at least but less than 30 years of service, 2 extra days are given. These 2 days are also provided for employees of age 45 or more. these 2 extra days cannot be combined with the 5 extra days.&lt;/p&gt;</dmn11:description>
+    <dmn11:variable id="_48d7bf0b-b175-4138-b982-b392b9c825dd" name="Two extra days Rule" typeRef="feel:number"/>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_cf96cd90-c5c9-43f0-a286-18db091a4443"/>
+    </dmn11:informationRequirement>
+    <dmn11:informationRequirement>
+      <dmn11:requiredInput href="#_14640e17-48e3-4902-8262-a63f7c3805e1"/>
+    </dmn11:informationRequirement>
+    <dmn11:decisionTable hitPolicy="FIRST" id="_dac45991-b05d-427e-aff0-175c5d0a3beb" outputLabel="Two extra days Rule" typeRef="feel:number">
+      <dmn11:input id="_cc7ba421-e714-4caa-b53a-bcfc5db8a4db">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Age</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=14</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:input id="_9b876efd-072f-4712-94b7-8b04281becf6">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Years of Service</dmn11:text>
+        </dmn11:inputExpression>
+        <dmn11:inputValues triso:constraintsType="simple">
+          <dmn11:text>&gt;=0</dmn11:text>
+        </dmn11:inputValues>
+      </dmn11:input>
+      <dmn11:output id="_0d8d08c3-8795-42b5-a394-7e383b8ed572"/>
+      <dmn11:rule id="_8f5907ef-125b-49ac-8116-de9443ffc670">
+        <dmn11:inputEntry id="_a1c83ffd-de60-4c3f-8a68-f33be2c868bf">
+          <dmn11:text>&gt;=45</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_175d72f4-3639-43db-9cd8-75e2c19bbbab">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_6c0e3e4c-ab89-4e8b-a23f-f9eeaab962ed">
+          <dmn11:text>2</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_e760f74b-148d-44fe-a324-04869682e9b6">
+        <dmn11:inputEntry id="_429d9b07-0549-4d4c-94a3-85efe3352945">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_94191b75-8c55-47c8-adb7-4163a54ed8f5">
+          <dmn11:text>[15..30)</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_64fa9bd9-ee98-4551-af7d-34231c79a740">
+          <dmn11:text>2</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_f9b49da2-9779-48ce-99db-241067a8a35f">
+        <dmn11:inputEntry id="_1ee8b777-44e9-4771-9a48-ca7d591fb55d">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:inputEntry id="_44f6447d-bca9-4a5e-9ac5-6bb6442b0f7a">
+          <dmn11:text>-</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_57d0f81e-4a1d-4fdf-9ba5-e060ac87468c">
+          <dmn11:text>0</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+    </dmn11:decisionTable>
+  </dmn11:decision>
+  <dmn11:decision id="_bb71c620-18fe-4f53-8ad5-56ac74e3cfc5" name="Number of vacation">
+    <dmn11:description>&lt;p&gt;Problem Statements:&lt;br /&gt;The number of vacation days depends on age and years of service.&lt;/p&gt;
+&lt;p&gt;Every employee receives at least 22 days.&lt;br /&gt;Additional days are provided according the following criteria:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Only employees younger than 18 or at least 60 years, or employees with at least 30 years of service will receive 5 extra days.&lt;/li&gt;
+&lt;li&gt;Employees with at least 30 years of service and also employees of age 60 or more, receive 3 extra days, on top of possible additional days already given.&lt;/li&gt;
+&lt;li&gt;If an employee has at least but less than 30 years of service, 2 extra days are given. These 2 days are also provided for employees of age 45 or more. these 2 extra days cannot be combined with the 5 extra days.&lt;/li&gt;
+&lt;/ol&gt;</dmn11:description>
+    <dmn11:variable id="_47c9a1fe-3ece-4b12-ae36-0e616869bd11" name="Number of vacation" typeRef="feel:number"/>
+    <dmn11:informationRequirement>
+      <dmn11:requiredDecision href="#_852f6be7-e235-4ff4-9dee-505f8cf2ae22"/>
+    </dmn11:informationRequirement>
+    <dmn11:informationRequirement>
+      <dmn11:requiredDecision href="#_62995f21-c34f-4a9e-a25a-46fdcaf34a7e"/>
+    </dmn11:informationRequirement>
+    <dmn11:informationRequirement>
+      <dmn11:requiredDecision href="#_e1e247a4-6e54-4e72-93b6-78ae8606b44d"/>
+    </dmn11:informationRequirement>
+    <dmn11:decisionTable hitPolicy="UNIQUE" id="_7e1b4a57-f61d-4354-b892-3b9d542eece6" outputLabel="Number of vacation" typeRef="feel:number">
+      <dmn11:input id="_0eb82973-96cd-4dc9-8dd3-cc1a90efda07">
+        <dmn11:inputExpression typeRef="feel:number">
+          <dmn11:text>Five extra days Rule</dmn11:text>
+        </dmn11:inputExpression>
+      </dmn11:input>
+      <dmn11:output id="_6e54c621-e6d8-4992-943b-f7db3b82030a"/>
+      <dmn11:rule id="_0259f881-c30e-4e1c-8748-586d969fae7e">
+        <dmn11:inputEntry id="_ed6167d3-d536-43a4-ab67-60642067c03c">
+          <dmn11:text>&gt;0</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_19bd1f8e-42a8-4efd-a0de-4adb294ad5b0">
+          <dmn11:text>22+Five extra days Rule+Three extra days Rule</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+      <dmn11:rule id="_259e7347-195e-4867-a1a0-4cd85e69d9f0">
+        <dmn11:inputEntry id="_0b8fe8f4-131b-43e8-82c2-9628614ae2f2">
+          <dmn11:text>0</dmn11:text>
+        </dmn11:inputEntry>
+        <dmn11:outputEntry id="_4e81115f-cc01-4a14-a0cf-1f8d2dd67dea">
+          <dmn11:text>22+Two extra days Rule+Three extra days Rule</dmn11:text>
+        </dmn11:outputEntry>
+      </dmn11:rule>
+    </dmn11:decisionTable>
+  </dmn11:decision>
+  <dmn11:inputData id="_14640e17-48e3-4902-8262-a63f7c3805e1" name="Age">
+    <dmn11:variable id="_c6e149dd-9058-4eab-af35-129071bf5b92" name="Age" typeRef="feel:number"/>
+  </dmn11:inputData>
+  <dmn11:inputData id="_cf96cd90-c5c9-43f0-a286-18db091a4443" name="Years of Service">
+    <dmn11:variable id="_b75e1e34-363e-441f-a920-fd1f645aba53" name="Years of Service" typeRef="feel:number"/>
+  </dmn11:inputData>
+  <dmn11:textAnnotation id="_fc50c036-3027-4b98-ae76-8bdfea745a64">
+    <dmn11:text>Problem Statements:
+The number of vacation days depends on age and years of service.
+
+Every employee receives at least 22 days.
+Additional days are provided according the following criteria:
+
+1) Only employees younger than 18 or at least 60 years, or employees with at least 30 years of service will receive 5 extra days.
+
+2) Employees with at least 30 years of service and also employees of age 60 or more, receive 3 extra days, on top of possible additional days already given.
+
+3) If an employee has at least but less than 30 years of service, 2 extra days are given. These 2 days are also provided for employees of age 45 or more. these 2 extra days cannot be combined with the 5 extra days.
+</dmn11:text>
+  </dmn11:textAnnotation>
+  <dmn11:association id="_507661c2-1c6a-4b1e-8d3c-d68af298a970">
+    <dmn11:sourceRef href="#_bb71c620-18fe-4f53-8ad5-56ac74e3cfc5"/>
+    <dmn11:targetRef href="#_fc50c036-3027-4b98-ae76-8bdfea745a64"/>
+  </dmn11:association>
+</dmn11:definitions>
