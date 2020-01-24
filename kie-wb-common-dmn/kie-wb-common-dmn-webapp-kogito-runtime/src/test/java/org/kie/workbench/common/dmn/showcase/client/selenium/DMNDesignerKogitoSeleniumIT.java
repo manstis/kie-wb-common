@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kie.workbench.common.dmn.showcase.client.tests.DMNNewDiagramRoundTripTest;
+import org.kie.workbench.common.dmn.showcase.client.tests.model.dd.ColorUtilsTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -91,6 +94,40 @@ public class DMNDesignerKogitoSeleniumIT {
     public void teardown() {
         if (driver != null) {
             driver.quit();
+        }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testDMNNewDiagramRoundTripTest() {
+        final Object assertionErrors = ((JavascriptExecutor) driver).executeScript("return gwtEditorTests.get(\"" + DMNNewDiagramRoundTripTest.NAME + "\").run();");
+        final Object informationMessages = ((JavascriptExecutor) driver).executeScript("return gwtEditorTests.get(\"" + DMNNewDiagramRoundTripTest.NAME + "\").messages();");
+        assertThat(assertionErrors).isInstanceOf(List.class);
+        assertThat(informationMessages).isInstanceOf(List.class);
+
+        final List assertionErrorsList = (List) assertionErrors;
+        final List informationMessagesList = (List) informationMessages;
+        informationMessagesList.forEach(System.out::println);
+
+        if (!assertionErrorsList.isEmpty()) {
+            throw new MultipleAssertionsError(assertionErrorsList);
+        }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testColourUtilsTest() {
+        final Object assertionErrors = ((JavascriptExecutor) driver).executeScript("return gwtEditorTests.get(\"" + ColorUtilsTest.NAME + "\").run();");
+        final Object informationMessages = ((JavascriptExecutor) driver).executeScript("return gwtEditorTests.get(\"" + ColorUtilsTest.NAME + "\").messages();");
+        assertThat(assertionErrors).isInstanceOf(List.class);
+        assertThat(informationMessages).isInstanceOf(List.class);
+
+        final List assertionErrorsList = (List) assertionErrors;
+        final List informationMessagesList = (List) informationMessages;
+        informationMessagesList.forEach(System.out::println);
+
+        if (!assertionErrorsList.isEmpty()) {
+            throw new MultipleAssertionsError(assertionErrorsList);
         }
     }
 

@@ -166,25 +166,43 @@ public class DMNClientDiagramServiceImpl implements KogitoClientDiagramService {
 
     @Override
     public Promise<String> transform(final KogitoDiagramResourceImpl resource) {
+        return promises.create((resolveCallbackFn, rejectCallbackFn) ->
+                                       doTransform(resource,
+                                                   new ServiceCallback<String>() {
+                                                       @Override
+                                                       public void onSuccess(final String xml) {
+                                                           resolveCallbackFn.onInvoke(xml);
+                                                       }
+
+                                                       @Override
+                                                       public void onError(final ClientRuntimeError error) {
+                                                           rejectCallbackFn.onInvoke(error);
+                                                       }
+                                                   }));
+    }
+
+    public void doTransform(final KogitoDiagramResourceImpl resource,
+                            final ServiceCallback<String> callback) {
         if (resource.getType() == DiagramType.PROJECT_DIAGRAM) {
-            return promises.create((resolveCallbackFn, rejectCallbackFn) -> {
-                if (resource.projectDiagram().isPresent()) {
-                    final Diagram diagram = resource.projectDiagram().get();
-                    marshall(diagram,
-                             resolveCallbackFn,
-                             rejectCallbackFn);
-                } else {
-                    rejectCallbackFn.onInvoke(new IllegalStateException("DiagramType is PROJECT_DIAGRAM however no instance present"));
-                }
-            });
+            if (resource.projectDiagram().isPresent()) {
+                final Diagram diagram = resource.projectDiagram().get();
+                marshall(diagram, callback);
+                return;
+            } else {
+                callback.onError(new ClientRuntimeError("DiagramType is PROJECT_DIAGRAM however no instance present"));
+                return;
+            }
         }
-        return promises.resolve(resource.xmlDiagram().orElse("DiagramType is XML_DIAGRAM however no instance present"));
+        if (!resource.xmlDiagram().isPresent()) {
+            callback.onError(new ClientRuntimeError("DiagramType is XML_DIAGRAM however no instance present"));
+            return;
+        }
+        callback.onSuccess(resource.xmlDiagram().get());
     }
 
     @SuppressWarnings("unchecked")
     private void marshall(final Diagram diagram,
-                          final Promise.PromiseExecutorCallbackFn.ResolveCallbackFn<String> resolveCallbackFn,
-                          final Promise.PromiseExecutorCallbackFn.RejectCallbackFn rejectCallbackFn) {
+                          final ServiceCallback<String> callback) {
         if (Objects.isNull(diagram)) {
             return;
         }
@@ -198,7 +216,7 @@ public class DMNClientDiagramServiceImpl implements KogitoClientDiagramService {
             if (!xml.startsWith("<?xml version=\"1.0\" ?>")) {
                 xml = "<?xml version=\"1.0\" ?>" + xml;
             }
-            resolveCallbackFn.onInvoke(xml);
+            callback.onSuccess(xml);
         };
 
         try {
@@ -210,7 +228,7 @@ public class DMNClientDiagramServiceImpl implements KogitoClientDiagramService {
             MainJs.marshall(dmn12, jsitDefinitions.getNamespace(), jsCallback);
         } catch (Exception e) {
             GWT.log(e.getMessage(), e);
-            rejectCallbackFn.onInvoke(e);
+            callback.onError(new ClientRuntimeError(e));
         }
     }
 
